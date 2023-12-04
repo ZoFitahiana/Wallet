@@ -1,7 +1,7 @@
-package Repository;
+package repository;
 
-import Configuration.ConnectionDB;
-import Model.Account;
+import configuration.ConnectionDB;
+import model.Account;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

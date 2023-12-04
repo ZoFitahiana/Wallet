@@ -1,7 +1,7 @@
-package Test;
+package test;
 
-import Model.Account;
-import Repository.AccountCrudOperation;
+import model.Account;
+import repository.AccountCrudOperation;
 
 public class TestOfAccount {
     public static void  TestAccount(){

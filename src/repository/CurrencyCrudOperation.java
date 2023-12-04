@@ -1,9 +1,8 @@
-package Repository;
+package repository;
 
-import Configuration.ConnectionDB;
-import Model.Currency;
+import configuration.ConnectionDB;
+import model.Currency;
 
-import javax.xml.transform.Result;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

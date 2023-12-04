@@ -1,7 +1,7 @@
-package Test;
+package test;
 
-import Model.Transaction;
-import Repository.TransactionCrudOperation;
+import model.Transaction;
+import repository.TransactionCrudOperation;
 
 public class TestOfTransaction {
 public static  void TestTransaction(){

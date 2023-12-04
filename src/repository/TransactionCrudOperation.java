@@ -1,7 +1,7 @@
-package Repository;
+package repository;
 
-import Configuration.ConnectionDB;
-import Model.Transaction;
+import configuration.ConnectionDB;
+import model.Transaction;
 
 import java.sql.*;
 import java.util.List;
