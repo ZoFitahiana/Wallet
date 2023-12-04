@@ -1,6 +1,6 @@
-import Test.TestOfAccount;
-import Test.TestOfCurrency;
-import Test.TestOfTransaction;
+import test.TestOfAccount;
+import test.TestOfCurrency;
+import test.TestOfTransaction;
 
 public class  Main {
     public static void main(String[] args) {

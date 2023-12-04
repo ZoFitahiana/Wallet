@@ -1,7 +1,7 @@
-package Test;
+package test;
 
-import Model.Currency;
-import Repository.CurrencyCrudOperation;
+import model.Currency;
+import repository.CurrencyCrudOperation;
 
 public class TestOfCurrency {
     public static void TestCurrency(){
