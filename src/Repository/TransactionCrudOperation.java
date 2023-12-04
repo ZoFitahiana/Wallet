@@ -21,7 +21,7 @@ public class TransactionCrudOperation implements CrudOperation<Transaction>{
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()){
                 String transactionId = resultSet.getString("transactionId");
-                String amount = resultSet.getString("amount");
+                int amount = resultSet.getInt("amount");
                 String description = resultSet.getString("description");
                 String accountId = resultSet.getString("accountId");
                 System.out.println("Transaction : { transactionId = " + transactionId + " , amount = "+ amount + ", description = "+ description + ", accountId = "+ accountId + "}");
@@ -40,7 +40,7 @@ public class TransactionCrudOperation implements CrudOperation<Transaction>{
             String sql = "insert into transaction (transactionId,amount,description,accountId) values(?,?,?,?)";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1,toSave.getTransactionId());
-            statement.setString(2,toSave.getAmount());
+            statement.setInt(2,toSave.getAmount());
             statement.setString(3,toSave.getDescription());
             statement.setString(4,toSave.getAccountId());
             int rows = statement.executeUpdate();
@@ -57,7 +57,7 @@ public class TransactionCrudOperation implements CrudOperation<Transaction>{
         try{
             String sql = "update transaction set amount = ? , description = ? , accountId = ? where  transactionId = ? ";
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1,toUpdate.getAmount());
+            statement.setInt(1,toUpdate.getAmount());
             statement.setString(2,toUpdate.getDescription());
             statement.setString(3,toUpdate.getAccountId());
             statement.setString(4,toUpdate.getTransactionId());
