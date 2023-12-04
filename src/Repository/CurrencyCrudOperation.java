@@ -27,7 +27,7 @@ public class CurrencyCrudOperation implements CrudOperation<Currency>{
                 String currencyId = resultSet.getString("currencyId");
                 String name = resultSet.getString("name");
                 String code = resultSet.getString("code");
-                System.out.println("Currency : { "+ "CurrencyId = " + currencyId + "name = "+name + "code = " + code +"}");
+                System.out.println("Currency : { "+ "CurrencyId = " + currencyId + ", name = "+name + ", code = " + code +"}");
             }
 
         } catch (SQLException e) {
