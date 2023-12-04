@@ -5,12 +5,12 @@ import java.util.Objects;
 public class Account {
     private String accountId;
     private int balance ;
-    private String currency;
+    private String currencyId;
 
     public Account(String accountId, int balance, String currency) {
         this.accountId = accountId;
         this.balance = balance;
-        this.currency = currency;
+        this.currencyId = currency;
     }
 
     public String getAccountId() {
@@ -29,12 +29,12 @@ public class Account {
         this.balance = balance;
     }
 
-    public String getCurrency() {
-        return currency;
+    public String getCurrencyId() {
+        return currencyId;
     }
 
-    public void setCurrency(String currency) {
-        this.currency = currency;
+    public void setCurrencyId(String currencyId) {
+        this.currencyId = currencyId;
     }
 
     @Override
@@ -42,12 +42,12 @@ public class Account {
         if (this == object) return true;
         if (object == null || getClass() != object.getClass()) return false;
         Account account = (Account) object;
-        return balance == account.balance && Objects.equals(accountId, account.accountId) && Objects.equals(currency, account.currency);
+        return balance == account.balance && Objects.equals(accountId, account.accountId) && Objects.equals(currencyId, account.currencyId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(accountId, balance, currency);
+        return Objects.hash(accountId, balance, currencyId);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class Account {
         return "Account{" +
                 "accountId='" + accountId + '\'' +
                 ", balance=" + balance +
-                ", currency='" + currency + '\'' +
+                ", currency='" + currencyId + '\'' +
                 '}';
     }
 }
