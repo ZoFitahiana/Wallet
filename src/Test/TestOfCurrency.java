@@ -13,6 +13,7 @@ public class TestOfCurrency {
 
         // update currency
         Currency SetCurrency = new Currency("AR","ARIARY","AR");
+        currencyCrudOperation.update(SetCurrency);
 
         // Find all currency
         currencyCrudOperation.findAll();
