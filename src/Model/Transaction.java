@@ -4,11 +4,11 @@ import java.util.Objects;
 
 public class Transaction {
     private String transactionId ;
-    private String amount;
+    private int amount;
     private String description;
     private String accountId;
 
-    public Transaction(String transactionId, String amount, String description, String accountId) {
+    public Transaction(String transactionId, int amount, String description, String accountId) {
         this.transactionId = transactionId;
         this.amount = amount;
         this.description = description;
@@ -23,11 +23,11 @@ public class Transaction {
         this.transactionId = transactionId;
     }
 
-    public String getAmount() {
+    public int getAmount() {
         return amount;
     }
 
-    public void setAmount(String amount) {
+    public void setAmount(int amount) {
         this.amount = amount;
     }
 
