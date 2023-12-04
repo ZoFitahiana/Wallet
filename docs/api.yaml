@@ -1,0 +1,390 @@
+openapi: 3.0.3
+info:
+  title: WalletAPI
+  version: 1.0.0
+  description: Wallet API
+servers:
+  - url: https://wallet.com
+tags:
+  - name: Accounts
+  - name: Transactions
+  - name: Currencies
+paths:
+  /accounts:
+    get:
+      tags:
+        - "Accounts"
+      summary: List of all accounts
+      operationId: getAccounts
+      responses:
+        200:
+          $ref: '#/components/responses/200Accounts'
+        400:
+          $ref: '#/components/responses/400'
+        403:
+          $ref: '#/components/responses/403'
+        500:
+          $ref: '#/components/responses/500'
+    put:  
+      tags:
+        - "Accounts"
+      summary: Create or Update an account
+      operationId: CrupdateAccounts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Account'
+      responses:
+        200:
+          $ref: '#/components/responses/200Accounts'
+        400:
+          $ref: '#/components/responses/400'
+        403:
+          $ref: '#/components/responses/403'
+        500:
+          $ref: '#/components/responses/500'
+
+  /accounts/{accountId}:
+    get:
+      tags:
+        - "Accounts"
+      summary: Details of an account by Id
+      operationId: GetAccountById
+      parameters:
+        - $ref: '#/components/parameters/pathAccountId'
+      responses:
+        200:
+          $ref: '#/components/responses/200Accounts'
+        400:
+          $ref: '#/components/responses/400'
+        403:
+          $ref: '#/components/responses/403'
+        500:
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - "Accounts"
+      summary: Crupdate Accounts By Id
+      operationId: CrupdateAccountsById
+      parameters:
+        - $ref: '#/components/parameters/pathAccountId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Account'
+      responses:
+        200:
+          $ref: '#/components/responses/200Accounts'
+        400:
+          $ref: '#/components/responses/400'
+        403:
+          $ref: '#/components/responses/403'
+        500:
+          $ref: '#/components/responses/500'
+  /accounts/{accountId}/transactions: 
+    get:
+      tags:
+        - "Transactions"
+      summary: List of all transactions
+      operationId: GetTransactions
+      parameters:
+        - $ref: '#/components/parameters/pathAccountId'
+      responses:
+        200:
+          $ref: '#/components/responses/200Transaction'
+        400:
+          $ref: '#/components/responses/400'
+        403:
+          $ref: '#/components/responses/403'
+        500:
+          $ref: '#/components/responses/500'
+    post:
+      tags:
+        - "Transactions"
+      summary: Add a new transaction to an account
+      operationId: PostNewTransaction
+      parameters:
+        - $ref: '#/components/parameters/pathAccountId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Transaction'
+      responses:
+        200:
+          $ref: '#/components/responses/200Transaction'
+        400:
+          $ref: '#/components/responses/400'
+        403:
+          $ref: '#/components/responses/403'
+        500:
+          $ref: '#/components/responses/500'
+  /transactions/{transactionId}:
+    get:
+      tags:
+        - "Transactions"
+      summary: Details of a transaction
+      operationId: GetTransactionDetails
+      parameters:
+        - $ref: '#/components/parameters/pathTransactionId'
+      responses:
+        200:
+          $ref: '#/components/responses/200Transaction'
+        400:
+          $ref: '#/components/responses/400'
+        403:
+          $ref: '#/components/responses/403'
+        500:
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - "Transactions"
+      summary: Create or Update a transaction
+      operationId: CrupdateTransaction
+      parameters:
+        - $ref: '#/components/parameters/pathTransactionId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Transaction'
+      responses:
+        200:
+          $ref: '#/components/responses/200Transaction'
+        400:
+          $ref: '#/components/responses/400'
+        403:
+          $ref: '#/components/responses/403'
+        500:
+          $ref: '#/components/responses/500'
+  /currencies:
+    get:
+      tags:
+        - "Currencies"
+      summary: List of all currencies
+      operationId: GetCurrencies
+      responses:
+        200:
+          $ref: '#/components/responses/200Currency'
+        400:
+          $ref: '#/components/responses/400'
+        403:
+          $ref: '#/components/responses/403'
+        500:
+          $ref: '#/components/responses/500'
+    post:
+      tags:
+        - "Currencies"
+      summary: Create a new Currency
+      operationId: PostCurrency
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Currency'  
+      responses:
+        200:
+          $ref: '#/components/responses/200Currency'
+        400:
+          $ref: '#/components/responses/400'
+        403:
+          $ref: '#/components/responses/403'
+        500:
+          $ref: '#/components/responses/500'
+  /currencies/{currencyId}:
+    get:
+      tags:
+        - "Currencies"
+      summary: Currencies's Details
+      operationId: GetCurrenciesById
+      parameters:
+        - $ref: '#/components/parameters/pathCurrencyId'
+      responses:
+        200:
+          $ref: '#/components/responses/200Currency'
+        400:
+          $ref: '#/components/responses/400'
+        403:
+          $ref: '#/components/responses/403'
+        500:
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - "Currencies"
+      summary: Create Or Update Currency
+      operationId: CrupdateCurrency
+      parameters:
+        - $ref: '#/components/parameters/pathCurrencyId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Currency'
+      responses:
+        200:
+          $ref: '#/components/responses/200Currency'
+        400:
+          $ref: '#/components/responses/400'
+        403:
+          $ref: '#/components/responses/403'
+        500:
+          $ref: '#/components/responses/500'
+ 
+                 
+components:
+  schemas:
+    Account:
+      type: object
+      properties:
+        accountId:
+          type: string
+        balance:
+          type: number
+        currency:
+          $ref: '#/components/schemas/Currency'
+    Transaction:
+      type: object
+      properties:
+        transactionId:
+          type: string
+        amount:
+          type: number
+        description:
+          type: string
+    Currency:
+      type: object
+      properties:
+        currencyId:
+          type: string
+        name:
+          type: string
+        code:
+          type: string
+    ResponseStatus:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 200
+        message:
+          type: string
+    ResponseBodyTemplate:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/ResponseStatus'
+        body:
+          type: object
+    BadRequestBody:
+      allOf:
+        - $ref: '#/components/schemas/ResponseBodyTemplate'
+      example:
+        status:
+          code: 400
+          message: BAD REQUEST
+        body: {}
+    ForbiddenRequestBody:
+      allOf:
+        - $ref: '#/components/schemas/ResponseBodyTemplate'
+      example:
+        status:
+          code: 403
+          message: FORBIDDEN REQUEST
+    InternalServerErrorRequestBody:
+      allOf:
+        - $ref: '#/components/schemas/ResponseBodyTemplate'
+      example:
+        status:
+          code: 500
+          message: INTERNAL SERVER ERROR
+        body: {}
+    AccountListBody:
+      allOf:
+        - $ref: '#/components/schemas/ResponseBodyTemplate'
+        - properties:
+            body:
+              type: array
+              items:
+                $ref: '#/components/schemas/Account'
+    TransactionListBody:
+      allOf:
+        - $ref: '#/components/schemas/ResponseBodyTemplate'
+        - properties:
+            body:
+              type: array
+              items:
+                $ref: '#/components/schemas/Transaction'
+    CurrencyListBody:
+      allOf:
+        - $ref: '#/components/schemas/ResponseBodyTemplate'
+        - properties:
+            body:
+              type: array
+              items:
+                $ref: '#/components/schemas/Currency'
+
+  responses:
+    200Accounts:
+      description: List Of Accounts
+      content:
+        application/json:
+          schema:
+              $ref: '#/components/schemas/AccountListBody'
+    200Transaction:
+      description: List Of Transaction
+      content:
+        application/json:
+          schema:
+              $ref: '#/components/schemas/TransactionListBody'
+    200Currency:
+      description: List Of Currency
+      content:
+        application/json:
+          schema:
+              $ref: '#/components/schemas/CurrencyListBody'
+    400:
+      description: Bad Request
+      content:
+        application/json:
+          schema: 
+            $ref: '#/components/schemas/BadRequestBody'
+    403:
+      description: Forbidden
+      content:
+        application/json:
+          schema: 
+            $ref: '#/components/schemas/ForbiddenRequestBody'
+    500:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/InternalServerErrorRequestBody'
+  parameters:
+    pathAccountId:
+      in: path
+      name: accountId
+      required: true
+      schema:
+        type: string
+    pathTransactionId:
+      in: path
+      name: transactionId
+      required: true
+      schema:
+        type: string
+    pathCurrencyId:
+      in: path
+      name: currencyId
+      required: true
+      schema:
+        type: string
