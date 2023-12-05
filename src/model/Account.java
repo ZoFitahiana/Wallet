@@ -1,13 +1,14 @@
 package model;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 public class Account {
     private String accountId;
-    private int balance ;
+    private BigDecimal balance ;
     private String currencyId;
 
-    public Account(String accountId, int balance, String currency) {
+    public Account(String accountId, BigDecimal balance, String currency) {
         this.accountId = accountId;
         this.balance = balance;
         this.currencyId = currency;
@@ -21,11 +22,11 @@ public class Account {
         this.accountId = accountId;
     }
 
-    public int getBalance() {
+    public BigDecimal getBalance() {
         return balance;
     }
 
-    public void setBalance(int balance) {
+    public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
 
