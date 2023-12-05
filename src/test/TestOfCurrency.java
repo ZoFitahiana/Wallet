@@ -1,7 +1,7 @@
 package test;
 
 import model.Currency;
-import repository.CurrencyCrudOperation;
+import dao.CurrencyCrudOperation;
 
 public class TestOfCurrency {
     public static void TestCurrency(){
