@@ -3,6 +3,7 @@ package repository;
 import configuration.ConnectionDB;
 import model.Account;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,7 +26,7 @@ public class AccountCrudOperation implements CrudOperation<Account>{
             ResultSet resultSet = statement.executeQuery();
             while(resultSet.next()){
                 String id = resultSet.getString("accountId");
-                int balance = resultSet.getInt("balance");
+                BigDecimal balance = resultSet.getBigDecimal("balance");
                 String currencyId = resultSet.getString("currencyId");
                 System.out.println("Account : { accountId = "+id +" ,balance = " + balance +" ,currencyId = " + currencyId + "}" );
             }
@@ -42,7 +43,7 @@ public class AccountCrudOperation implements CrudOperation<Account>{
             String sql = "insert into account (accountId,balance,currencyId) values (?,?,?)";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1,toSave.getAccountId());
-            statement.setInt(2,toSave.getBalance());
+            statement.setBigDecimal(2,toSave.getBalance());
             statement.setString(3,toSave.getCurrencyId());
             int row = statement.executeUpdate();
         } catch (SQLException e) {
@@ -58,7 +59,7 @@ public class AccountCrudOperation implements CrudOperation<Account>{
             try {
                 String sql = "update account set balance = ?, currencyId = ? where accountId = ?";
                 PreparedStatement statement = connection.prepareStatement(sql);
-                statement.setInt(1, toUpdate.getBalance());
+                statement.setBigDecimal(1,toUpdate.getBalance());
                 statement.setString(2, toUpdate.getCurrencyId());
                 statement.setString(3, toUpdate.getAccountId());
 
