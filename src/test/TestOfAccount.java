@@ -1,7 +1,7 @@
 package test;
 
 import model.Account;
-import repository.AccountCrudOperation;
+import dao.AccountCrudOperation;
 
 import java.math.BigDecimal;
 
