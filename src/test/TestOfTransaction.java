@@ -3,6 +3,7 @@ package test;
 import model.Transaction;
 import dao.TransactionCrudOperation;
 
+import javax.swing.plaf.synth.SynthOptionPaneUI;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -18,10 +19,18 @@ public static  void TestTransaction(){
     // Test save transaction :
     System.out.println("Save transaction : ");
     LocalDateTime date = LocalDateTime.now();
-    BigDecimal amount = new BigDecimal("100.45");
-    Transaction transaction = new Transaction("TXN001", amount, "Dinner", "CREDIT",date,"ACC001");
+    BigDecimal amount = new BigDecimal("200.45");
+    BigDecimal creditAmount = new BigDecimal("300.45");
+    BigDecimal debitAmount = new BigDecimal("200.45");
+
+    // Test balance < amount of transaction accepted for account type is  BANK
+    Transaction transaction = new Transaction("TXN001", amount, "Dinner", "DEBIT",date,"ACC003");
     transactions.save(transaction);
 
+    // Test balance < amout of transaction accpted for account type is  not BANK
+    System.out.println("Test of transaction for balance  < amount and account type in not BANK : ");
+    Transaction transactionS = new Transaction("TXN001", amount, "Dinner", "DEBIT",date,"ACC002");
+    transactions.save(transactionS);
     // Find transaction by id :
     System.out.println("Finde transaction by ID : ");
     transactions.findById(transaction);
@@ -29,8 +38,8 @@ public static  void TestTransaction(){
     // Test save list of transaction :
     System.out.println("Save list of transaction :");
     List<Transaction> ListOfTransaction = new ArrayList<>();
-    Transaction transaction1 = new Transaction("TXN004", amount, "Groceries", "DEBIT",date,"ACC001");
-    Transaction transaction2 = new Transaction("TXN003", amount, "Dinner", "DEBIT",date,"ACC003");
+    Transaction transaction1 = new Transaction("TXN004", debitAmount, "Groceries", "DEBIT",date,"ACC001");
+    Transaction transaction2 = new Transaction("TXN003", creditAmount, "Dinner", "DEBIT",date,"ACC003");
     ListOfTransaction.add(transaction1);
     ListOfTransaction.add(transaction2);
     transactions.saveAll(ListOfTransaction);
