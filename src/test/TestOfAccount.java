@@ -20,30 +20,30 @@ public class TestOfAccount {
         // Find by id :
         System.out.println("Find by Id account : ");
         List<Transaction> ListOfTransaction = new ArrayList<>();
-        Transaction transaction1 = new Transaction("TXN004", amount, "Groceries", "DEBIT",date);
-        Transaction transaction2 = new Transaction("TXN003", amount, "Dinner", "DEBIT",date);
+        Transaction transaction1 = new Transaction("TXN004", amount, "Groceries", "DEBIT",date,"ACC001");
+        Transaction transaction2 = new Transaction("TXN003", amount, "Dinner", "DEBIT",date,"ACC002");
         ListOfTransaction.add(transaction1);
         ListOfTransaction.add(transaction2);
-        Account account = new Account("ACC001", "John Doe", balance,date,ListOfTransaction, "USD", "TXN001", "Bank");
+        Account account = new Account("ACC001", "John Doe", balance,date,ListOfTransaction, "USD", "Bank");
         accounts.findById(account);
 
         //Save account :
         System.out.println("This account is saved  : ");
-        Account account4 = new Account("ACC004", "RKT Zo", balance,date,ListOfTransaction, "AR", "TXN004", "Bank");
+        Account account4 = new Account("ACC003", "RKT Zo", balance,date,ListOfTransaction, "USD", "Bank");
         accounts.save(account4);
 
         //save list of account :
         System.out.println("This list of account is saved : ");
-        Account account5 = new Account("ACC005", "Rk Fabien", balance,date,ListOfTransaction, "USD", "TXN004", "Bank");
-        Account setAccount4 = new Account("ACC004", "RKT Zo", balance,date,ListOfTransaction, "AR", "TXN002", "Cash");
+        Account account5 = new Account("ACC003", "Rk Fabien", balance,date,ListOfTransaction, "USD", "Bank");
+        Account setAccount4 = new Account("ACC002", "RKT Zo", balance,date,ListOfTransaction, "EUR", "Cash");
         List<Account> listAccount = new ArrayList<>();
         listAccount.add(account5);
-        listAccount.add(account4);
+        listAccount.add(setAccount4);
         accounts.saveAll(listAccount);
 
         // Update account :
         System.out.println("This account has been successfully updated :");
-        Account setAccount5 = new Account("ACC005", "RZ Fabien", balance,date,ListOfTransaction, "AR", "TXN003", "Cash");
+        Account setAccount5 = new Account("ACC001", "RZ Fabien", balance,date,ListOfTransaction, "GBP", "Cash");
         accounts.update(setAccount5);
 
         // Find all account :
