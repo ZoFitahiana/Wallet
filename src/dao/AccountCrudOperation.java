@@ -152,4 +152,21 @@ public class AccountCrudOperation implements CrudOperation<Account>{
                 throw new RuntimeException(e);
             }
             return findById(toUpdate); }
+
+    public static void balanceAndDateOfAccount(){
+        getConnection();
+        try {
+            String sql = "select account.balance , transaction.date from account inner join transaction on account.accountId = transaction.accountId ";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                BigDecimal balance = resultSet.getBigDecimal("balance");
+                LocalDateTime date = resultSet.getTimestamp("date").toLocalDateTime();
+                System.out.println("{ Date & hour : " + date + " , Balance : " + balance + " } ;");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
     }
