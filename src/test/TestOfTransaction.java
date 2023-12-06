@@ -3,20 +3,45 @@ package test;
 import model.Transaction;
 import dao.TransactionCrudOperation;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 public class TestOfTransaction {
 public static  void TestTransaction(){
 
     TransactionCrudOperation transactions = new TransactionCrudOperation();
 
-    // save transaction
-    Transaction transaction = new Transaction("txn004",60,"Purchase of goods","123456");
+
+    // Test save transaction :
+    System.out.println("Save transaction : ");
+    LocalDateTime date = LocalDateTime.now();
+    BigDecimal amount = new BigDecimal("100.45");
+    Transaction transaction = new Transaction("TXN001", amount, "Dinner", "CREDIT",date);
     transactions.save(transaction);
 
-    // update transaction
-    Transaction SetTransaction =  new Transaction("txn004",100,"Salary deposit","123456");
-    transactions.update(SetTransaction);
+    // Find transaction by id :
+    System.out.println("Finde transaction by ID : ");
+    transactions.findById(transaction);
 
-    // Find all transaction
+    // Test save list of transaction :
+    System.out.println("Save list of transaction :");
+    List<Transaction> ListOfTransaction = new ArrayList<>();
+    Transaction transaction1 = new Transaction("TXN004", amount, "Groceries", "DEBIT",date);
+    Transaction transaction2 = new Transaction("TXN003", amount, "Dinner", "DEBIT",date);
+    ListOfTransaction.add(transaction1);
+    ListOfTransaction.add(transaction2);
+    transactions.saveAll(ListOfTransaction);
+
+    // Test update Transaction  :
+    System.out.println("Update transaction :");
+    Transaction transaction3 = new Transaction("TXN004", amount, "Bonus", "CREDIT",date);
+    transactions.update(transaction3);
+
+    // Test Find all :
+    System.out.println("List of transaction :");
     transactions.findAll();
 
 }
