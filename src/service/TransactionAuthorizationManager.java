@@ -1,6 +1,7 @@
 package service;
 
 import configuration.ConnectionDB;
+import dao.TransactionCrudOperation;
 import model.Account;
 import model.Transaction;
 
@@ -40,6 +41,8 @@ public class TransactionAuthorizationManager {
                     STATEMENT.setBigDecimal(1,newBalance);
                     STATEMENT.setString(2, account.getAccountId());
                     STATEMENT.executeUpdate();
+                    TransactionCrudOperation transactions = new TransactionCrudOperation();
+                    transactions.findById(transaction);
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
