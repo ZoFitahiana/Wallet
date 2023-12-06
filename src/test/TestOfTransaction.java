@@ -27,10 +27,11 @@ public static  void TestTransaction(){
     Transaction transaction = new Transaction("TXN001", amount, "Dinner", "DEBIT",date,"ACC003");
     transactions.save(transaction);
 
-    // Test balance < amout of transaction accpted for account type is  not BANK
+  // Test balance < amout of transaction accpted for account type is  not BANK
     System.out.println("Test of transaction for balance  < amount and account type in not BANK : ");
     Transaction transactionS = new Transaction("TXN001", amount, "Dinner", "DEBIT",date,"ACC002");
     transactions.save(transactionS);
+
     // Find transaction by id :
     System.out.println("Finde transaction by ID : ");
     transactions.findById(transaction);
