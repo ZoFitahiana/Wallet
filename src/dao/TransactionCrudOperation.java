@@ -1,7 +1,9 @@
 package dao;
 
 import configuration.ConnectionDB;
+import model.Account;
 import model.Transaction;
+import service.TransactionAuthorizationManager;
 
 import java.math.BigDecimal;
 import java.sql.*;
@@ -73,19 +75,22 @@ public class TransactionCrudOperation implements CrudOperation<Transaction>{
     public Transaction save(Transaction toSave) {
         getConnection();
         try{
-            String sql = "INSERT INTO transaction (transactionId, amount, label, type, date,accountId) " +
-                    "VALUES (?, ?, ?, ?, ?,?) " +
-                    "ON CONFLICT (transactionId) " +
-                    "DO UPDATE SET amount = EXCLUDED.amount, label = EXCLUDED.label, " +
-                    "type = EXCLUDED.type, date = EXCLUDED.date , accountId = EXCLUDED.accountId";
+            String sql = "select * from account where accountId = ? ";
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1,toSave.getTransactionId());
-            statement.setBigDecimal(2,toSave.getAmount());
-            statement.setString(3,toSave.getLabel());
-            statement.setString(4,toSave.getType());
-            statement.setObject(5,toSave.getDate());
-            statement.setString(6,toSave.getAccountId());
-            statement.executeUpdate();
+            statement.setString(1,toSave.getAccountId());
+            ResultSet resultSet = statement.executeQuery();
+            while(resultSet.next()) {
+                String accountId = resultSet.getString("accountId");
+                String name = resultSet.getString("name");
+                BigDecimal balance = resultSet.getBigDecimal("balance");
+                LocalDateTime lastUpdate = resultSet.getTimestamp("lastUpdate").toLocalDateTime();
+                AccountCrudOperation accountCrudOperation = new AccountCrudOperation();
+                List<Transaction> transactionList = accountCrudOperation.getTransactionsForAccount(resultSet.getString("accountId"));
+                String currencyId = resultSet.getString("currencyId");
+                String type = resultSet.getString("type");
+                Account account = new Account(accountId,name,balance,lastUpdate,transactionList,currencyId,type);
+                TransactionAuthorizationManager.authorizeTransaction(account, toSave);
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
