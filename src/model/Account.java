@@ -12,18 +12,16 @@ public class Account {
     private LocalDateTime lastUpdate;
     private List<Transaction> transactionList;
     private String currencyId;
-    private String transactionId;
     private String type;
 
 
-    public Account(String accountId, String name, BigDecimal balance, LocalDateTime lastUpdate, List<Transaction> transactionList, String currencyId, String transactionId, String type) {
+    public Account(String accountId, String name, BigDecimal balance, LocalDateTime lastUpdate, List<Transaction> transactionList, String currencyId, String type) {
         this.accountId = accountId;
         this.name = name;
         this.balance = balance;
         this.lastUpdate = lastUpdate;
         this.transactionList = transactionList;
         this.currencyId = currencyId;
-        this.transactionId = transactionId;
         this.type = type;
     }
 
@@ -75,14 +73,6 @@ public class Account {
         this.currencyId = currencyId;
     }
 
-    public String getTransactionId() {
-        return transactionId;
-    }
-
-    public void setTransactionId(String transactionId) {
-        this.transactionId = transactionId;
-    }
-
     public String getType() {
         return type;
     }
@@ -96,12 +86,12 @@ public class Account {
         if (this == object) return true;
         if (object == null || getClass() != object.getClass()) return false;
         Account account = (Account) object;
-        return Objects.equals(accountId, account.accountId) && Objects.equals(name, account.name) && Objects.equals(balance, account.balance) && Objects.equals(lastUpdate, account.lastUpdate) && Objects.equals(transactionList, account.transactionList) && Objects.equals(currencyId, account.currencyId) && Objects.equals(transactionId, account.transactionId) && Objects.equals(type, account.type);
+        return Objects.equals(accountId, account.accountId) && Objects.equals(name, account.name) && Objects.equals(balance, account.balance) && Objects.equals(lastUpdate, account.lastUpdate) && Objects.equals(transactionList, account.transactionList) && Objects.equals(currencyId, account.currencyId)  && Objects.equals(type, account.type);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(accountId, name, balance, lastUpdate, transactionList, currencyId, transactionId, type);
+        return Objects.hash(accountId, name, balance, lastUpdate, transactionList, currencyId,type);
     }
 
     @Override
@@ -113,7 +103,6 @@ public class Account {
                 ", lastUpdate=" + lastUpdate +
                 ", transactionList=" + transactionList +
                 ", currencyId='" + currencyId + '\'' +
-                ", transactionId='" + transactionId + '\'' +
                 ", type='" + type + '\'' +
                 '}';
     }
