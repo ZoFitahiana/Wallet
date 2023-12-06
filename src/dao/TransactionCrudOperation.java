@@ -94,36 +94,38 @@ public class TransactionCrudOperation implements CrudOperation<Transaction>{
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return findById(toSave);
+        return null;
     }
 
     @Override
     public List<Transaction> saveAll(List<Transaction> tosave) {
         getConnection();
-        try{
-            for (Transaction transaction :tosave){
-                String sql = "INSERT INTO transaction (transactionId, amount, label, type, date,accountId) " +
-                        "VALUES (?, ?, ?, ?, ?,?) " +
-                        "ON CONFLICT (transactionId) " +
-                        "DO UPDATE SET amount = EXCLUDED.amount, label = EXCLUDED.label, " +
-                        "type = EXCLUDED.type, date = EXCLUDED.date , accountId = EXCLUDED.accountId";
+        try {
+            for (Transaction transaction : tosave) {
+                String sql = "select * from account where accountId = ? ";
                 PreparedStatement statement = connection.prepareStatement(sql);
-                statement.setString(1,transaction.getTransactionId());
-                statement.setBigDecimal(2,transaction.getAmount());
-                statement.setString(3,transaction.getLabel());
-                statement.setString(4,transaction.getType());
-                statement.setObject(5,transaction.getDate());
-                statement.setString(6, transaction.getAccountId());
-                statement.executeUpdate();
-                findById(transaction);
+                statement.setString(1, transaction.getAccountId());
+                ResultSet resultSet = statement.executeQuery();
+                while (resultSet.next()) {
+                    String accountId = resultSet.getString("accountId");
+                    String name = resultSet.getString("name");
+                    BigDecimal balance = resultSet.getBigDecimal("balance");
+                    LocalDateTime lastUpdate = resultSet.getTimestamp("lastUpdate").toLocalDateTime();
+                    AccountCrudOperation accountCrudOperation = new AccountCrudOperation();
+                    List<Transaction> transactionList = accountCrudOperation.getTransactionsForAccount(resultSet.getString("accountId"));
+                    String currencyId = resultSet.getString("currencyId");
+                    String type = resultSet.getString("type");
+                    Account account = new Account(accountId, name, balance, lastUpdate, transactionList, currencyId, type);
+                    TransactionAuthorizationManager.authorizeTransaction(account, transaction);
+                }
             }
+            return null;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return tosave;
     }
 
-    @Override
+        @Override
     public Transaction update(Transaction toUpdate) {
         getConnection();
         try{
