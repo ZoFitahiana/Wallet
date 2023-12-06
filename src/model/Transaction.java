@@ -11,20 +11,15 @@ public class Transaction {
     private String label;
     private String type;
     private LocalDateTime date;
-    public Transaction(String transactionId, BigDecimal amount, String label, String type,LocalDateTime date) {
+    private String accountId ;
+
+    public Transaction(String transactionId, BigDecimal amount, String label, String type, LocalDateTime date, String accountId) {
         this.transactionId = transactionId;
         this.amount = amount;
         this.label = label;
         this.type = type;
         this.date = date;
-    }
-
-    public LocalDateTime getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDateTime date) {
-        this.date = date;
+        this.accountId = accountId;
     }
 
     public String getTransactionId() {
@@ -59,17 +54,33 @@ public class Transaction {
         this.type = type;
     }
 
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDateTime date) {
+        this.date = date;
+    }
+
+    public String getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
+    }
+
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;
         if (object == null || getClass() != object.getClass()) return false;
         Transaction that = (Transaction) object;
-        return Objects.equals(transactionId, that.transactionId) && Objects.equals(amount, that.amount) && Objects.equals(label, that.label) && Objects.equals(type, that.type) && Objects.equals(date, that.date);
+        return Objects.equals(transactionId, that.transactionId) && Objects.equals(amount, that.amount) && Objects.equals(label, that.label) && Objects.equals(type, that.type) && Objects.equals(date, that.date) && Objects.equals(accountId, that.accountId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(transactionId, amount, label, type, date);
+        return Objects.hash(transactionId, amount, label, type, date, accountId);
     }
 
     @Override
@@ -80,6 +91,7 @@ public class Transaction {
                 ", label='" + label + '\'' +
                 ", type='" + type + '\'' +
                 ", date=" + date +
+                ", accountId='" + accountId + '\'' +
                 '}';
     }
 }
