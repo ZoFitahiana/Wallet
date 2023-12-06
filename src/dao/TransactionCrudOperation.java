@@ -32,7 +32,8 @@ public class TransactionCrudOperation implements CrudOperation<Transaction>{
                 String label = resultSet.getString("label");
                 String type = resultSet.getString("type");
                 LocalDateTime date = resultSet.getTimestamp("date").toLocalDateTime();
-                System.out.println("Transaction : { transactionId = " + transactionId + " , amount = "+ amount + ", label = "+ label + ", type = "+ type + ", date = " +date + "}");
+                String accountId = resultSet.getString("accountId");
+                System.out.println("Transaction : { transactionId = " + transactionId + " , amount = "+ amount + ", label = "+ label + ", type = "+ type + ", date = " +date + "accountId = "+ accountId + "}");
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -54,7 +55,8 @@ public class TransactionCrudOperation implements CrudOperation<Transaction>{
                 String label = resultSet.getString("label");
                 String type = resultSet.getString("type");
                 LocalDateTime date = resultSet.getTimestamp("date").toLocalDateTime();
-                Transaction transaction = new Transaction(transactionId,amount,label,type,date);
+                String accountId = resultSet.getString("accountId");
+                Transaction transaction = new Transaction(transactionId,amount,label,type,date,accountId);
                 transactionList.add(transaction);
             }
 
@@ -71,17 +73,18 @@ public class TransactionCrudOperation implements CrudOperation<Transaction>{
     public Transaction save(Transaction toSave) {
         getConnection();
         try{
-            String sql = "INSERT INTO transaction (transactionId, amount, label, type, date) " +
-                    "VALUES (?, ?, ?, ?, ?) " +
+            String sql = "INSERT INTO transaction (transactionId, amount, label, type, date,accountId) " +
+                    "VALUES (?, ?, ?, ?, ?,?) " +
                     "ON CONFLICT (transactionId) " +
                     "DO UPDATE SET amount = EXCLUDED.amount, label = EXCLUDED.label, " +
-                    "type = EXCLUDED.type, date = EXCLUDED.date";
+                    "type = EXCLUDED.type, date = EXCLUDED.date , accountId = EXCLUDED.accountId";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1,toSave.getTransactionId());
             statement.setBigDecimal(2,toSave.getAmount());
             statement.setString(3,toSave.getLabel());
             statement.setString(4,toSave.getType());
             statement.setObject(5,toSave.getDate());
+            statement.setString(6,toSave.getAccountId());
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -94,17 +97,18 @@ public class TransactionCrudOperation implements CrudOperation<Transaction>{
         getConnection();
         try{
             for (Transaction transaction :tosave){
-                String sql = "INSERT INTO transaction (transactionId, amount, label, type, date) " +
-                        "VALUES (?, ?, ?, ?, ?) " +
+                String sql = "INSERT INTO transaction (transactionId, amount, label, type, date,accountId) " +
+                        "VALUES (?, ?, ?, ?, ?,?) " +
                         "ON CONFLICT (transactionId) " +
                         "DO UPDATE SET amount = EXCLUDED.amount, label = EXCLUDED.label, " +
-                        "type = EXCLUDED.type, date = EXCLUDED.date";
+                        "type = EXCLUDED.type, date = EXCLUDED.date , accountId = EXCLUDED.accountId";
                 PreparedStatement statement = connection.prepareStatement(sql);
                 statement.setString(1,transaction.getTransactionId());
                 statement.setBigDecimal(2,transaction.getAmount());
                 statement.setString(3,transaction.getLabel());
                 statement.setString(4,transaction.getType());
                 statement.setObject(5,transaction.getDate());
+                statement.setString(6, transaction.getAccountId());
                 statement.executeUpdate();
                 findById(transaction);
             }
@@ -118,13 +122,15 @@ public class TransactionCrudOperation implements CrudOperation<Transaction>{
     public Transaction update(Transaction toUpdate) {
         getConnection();
         try{
-            String sql = "update transaction set amount = ? , label = ? , type = ? , date = ? where  transactionId = ? ";
+            String sql = "update transaction set amount = ? , label = ? , type = ? , date = ? , accountId = ? where  transactionId = ? ";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setBigDecimal(1,toUpdate.getAmount());
             statement.setString(2,toUpdate.getLabel());
             statement.setString(3,toUpdate.getType());
-            statement.setString(5,toUpdate.getTransactionId());
             statement.setObject(4,toUpdate.getDate());
+            statement.setString(5,toUpdate.getAccountId());
+            statement.setString(6,toUpdate.getTransactionId());
+
             int rowsAffected = statement.executeUpdate();
 
             if (rowsAffected == 0) {
