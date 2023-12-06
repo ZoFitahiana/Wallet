@@ -50,6 +50,9 @@ public class TestOfAccount {
         System.out.println("List of account : ");
         accounts.findAll();
 
+        //List balance & date of transition ;
+        System.out.println("Date of transition & balance of account : ");
+        AccountCrudOperation.balanceAndDateOfAccount();
 
     }
 
