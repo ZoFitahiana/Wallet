@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS account (
 -- Insert data into account table
 INSERT INTO account (accountId, name, balance, lastUpdate, currencyId, type)
 VALUES
-('ACC001', 'John Doe', 350.25, '2023-12-06 12:30:00', 'USD', 'Bank');
+('ACC001', 'John Doe', 100.25, '2023-12-06 12:30:00', 'USD', 'Bank');
 ON CONFLICT (accountId) DO NOTHING;
 
 INSERT INTO account (accountId, name, balance, lastUpdate, currencyId, type)
