@@ -153,11 +153,12 @@ public class AccountCrudOperation implements CrudOperation<Account>{
             }
             return findById(toUpdate); }
 
-    public static void balanceAndDateOfAccount(){
+    public static void balanceAndDateOfAccount(Account account){
         getConnection();
         try {
-            String sql = "select account.balance , transaction.date from account inner join transaction on account.accountId = transaction.accountId ";
+            String sql = "select account.balance , transaction.date from account inner join transaction on account.accountId = transaction.accountId where account.accountId = ? ";
             PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, account.getAccountId());
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()){
                 BigDecimal balance = resultSet.getBigDecimal("balance");
