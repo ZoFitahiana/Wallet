@@ -58,4 +58,7 @@ public class Currency {
                 ", code='" + code + '\'' +
                 '}';
     }
+
+    public void setId(Long id) {
+    }
 }
