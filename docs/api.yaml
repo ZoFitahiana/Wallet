@@ -269,7 +269,14 @@ components:
           type: string
         amount:
           type: number
-        description:
+        label:
+          type: string
+        type:
+          type: string
+        date:
+          type: string
+          format: date-time
+        accountId:
           type: string
     Currency:
       type: object
