@@ -24,12 +24,12 @@ public static  void TestTransaction(){
     BigDecimal debitAmount = new BigDecimal("200.45");
 
     // Test balance < amount of transaction accepted for account type is  BANK
-    Transaction transaction = new Transaction("TXN001", amount, "Dinner", "DEBIT",date,"ACC003");
+    Transaction transaction = new Transaction("TXN001", amount, "Dinner", "DEBIT",date,"ACC001");
     transactions.save(transaction);
 
   // Test balance < amout of transaction accpted for account type is  not BANK
     System.out.println("Test of transaction for balance  < amount and account type in not BANK : ");
-    Transaction transactionS = new Transaction("TXN001", amount, "Dinner", "DEBIT",date,"ACC002");
+    Transaction transactionS = new Transaction("TXN002", amount, "Dinner", "DEBIT",date,"ACC002");
     transactions.save(transactionS);
 
     // Find transaction by id :
@@ -39,15 +39,15 @@ public static  void TestTransaction(){
     // Test save list of transaction :
     System.out.println("Save list of transaction :");
     List<Transaction> ListOfTransaction = new ArrayList<>();
-    Transaction transaction1 = new Transaction("TXN004", debitAmount, "Groceries", "DEBIT",date,"ACC001");
-    Transaction transaction2 = new Transaction("TXN003", creditAmount, "Dinner", "DEBIT",date,"ACC003");
+    Transaction transaction1 = new Transaction("TXN004", creditAmount, "Groceries", "CREDIT",date,"ACC002");
+    Transaction transaction2 = new Transaction("TXN005", debitAmount, "Dinner", "DEBIT",date,"ACC003");
     ListOfTransaction.add(transaction1);
     ListOfTransaction.add(transaction2);
     transactions.saveAll(ListOfTransaction);
 
     // Test update Transaction  :
     System.out.println("Update transaction :");
-    Transaction transaction3 = new Transaction("TXN004", amount, "Bonus", "CREDIT",date,"ACC003");
+    Transaction transaction3 = new Transaction("TXN005", amount, "Bonus", "CREDIT",date,"ACC003");
     transactions.update(transaction3);
 
     // Test Find all :
