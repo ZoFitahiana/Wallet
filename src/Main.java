@@ -5,14 +5,16 @@ import test.TestOfTransaction;
 public class  Main {
     public static void main(String[] args) {
 
-        //Test of account :
-        TestOfAccount.TestAccount();
-
         //Test of transaction :
-        TestOfTransaction.TestTransaction();
+         TestOfTransaction.TestTransaction();
+
+        //Test of account :
+         TestOfAccount.TestAccount();
+
+
 
         //Test of currency :
-        TestOfCurrency.TestCurrency();
+          TestOfCurrency.TestCurrency();
 
     }
 }
