@@ -18,9 +18,6 @@ public class TransactionAuthorizationManager {
         connection = Db.createConnection();
     }
 
-    public TransactionAuthorizationManager() {
-    }
-
     public static void authorizeTransaction(Account account , Transaction transaction){
         getConnection();
         if (transaction.getType().equals("DEBIT") && account.getBalance().compareTo(transaction.getAmount()) < 0 ) {
