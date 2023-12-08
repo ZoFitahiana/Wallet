@@ -42,7 +42,7 @@ public class AccountCrudOperation implements CrudOperation<Account>{
         }
         return null;
     }
-     List<Transaction> getTransactionsForAccount(String id ) {
+     public List<Transaction> getTransactionsForAccount(String id) {
         getConnection();
         List<Transaction> transactions = new ArrayList<>();
         try {
