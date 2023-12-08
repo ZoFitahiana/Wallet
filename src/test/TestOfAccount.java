@@ -38,18 +38,18 @@ public class TestOfAccount {
 
         //----------------------------------------Find by id------------------------------------ :
         System.out.println("Find by Id account : ");
-        Account account = new Account("ACC002", "John Doe", balance2,date,ListOfTransaction, "USD", "Bank");
+        Account account = new Account("ACC002", "John Doe", balance2,date,ListOfTransaction, "EUR", "Bank");
         accounts.findById(account);
 
         //------------------------------------------Save account--------------------------------- :
         System.out.println("This account is saved  : ");
-        Account Account5 = new Account("ACC005", "RKT Zo", balance2,date,ListOfTransaction, "USD", "Bank");
+        Account Account5 = new Account("ACC005", "RKT Zo", balance2,date,ListOfTransaction, "EUR", "Bank");
         accounts.save(Account5);
 
         //------------------------------------------save list of account----------------------------:
         System.out.println("This list of account is saved : ");
-        Account setAccount5 = new Account("ACC005", "Rk Fabien", balance2,date,ListOfTransaction, "USD", "Bank");
-        Account account6 = new Account("ACC006", "RKT Zo", balance3,date,ListOfTransaction, "EUR", "Cash");
+        Account setAccount5 = new Account("ACC005", "Rk Fabien", balance2,date,ListOfTransaction, "AR", "Bank");
+        Account account6 = new Account("ACC006", "RKT Zo", balance3,date,ListOfTransaction, "AR", "Cash");
         List<Account> listAccount = new ArrayList<>();
         listAccount.add(setAccount5);
         listAccount.add(account6);
@@ -57,7 +57,7 @@ public class TestOfAccount {
 
         //--------------------------------------------Update account------------------------------- :
         System.out.println("This account has been successfully updated :");
-        Account setAccount6 = new Account("ACC006", "Rakotonirina Zo", balance4,date,ListOfTransaction, "GBP", "Cash");
+        Account setAccount6 = new Account("ACC006", "Rakotonirina Zo", balance4,date,ListOfTransaction, "AR", "Cash");
         accounts.update(setAccount6);
 
         //--------------------------------------------Find all account------------------------------:
@@ -72,7 +72,7 @@ public class TestOfAccount {
         System.out.println("List balance of account between start & end date : ");
         LocalDateTime start = LocalDateTime.of(2023, 12, 7, 10, 30);
         LocalDateTime end = LocalDateTime.now();
-        Account account3 = new Account("ACC003", "Alice Johnson", balance3,date,ListOfTransaction, "GBP", "Mobile Money");
+        Account account3 = new Account("ACC003", "Alice Johnson", balance3,date,ListOfTransaction, "EUR", "Mobile Money");
         HistoryOfBalance.historyOfBalanceOfAccount(start,end,account3);
     }
 

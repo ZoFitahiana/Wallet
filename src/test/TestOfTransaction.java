@@ -62,9 +62,8 @@ public static  void TestTransaction(){
     BigDecimal credit = new BigDecimal("200");
     BigDecimal debit = new BigDecimal("200");
 
-    Transaction creditorAccount = new Transaction("TXN0010"    ,credit,"Transfer to  Rk Fabien","DEBIT",date,"ACC003");
-    Transaction debitorAccount = new Transaction("TXN0011",debit,"Have money by Rakotonirina Zo","CREDIT",date,"ACC002");
-
+    Transaction creditorAccount = new Transaction("TXN007"    ,credit,"Transfer to  Rk Fabien","DEBIT",date,"ACC02");
+    Transaction debitorAccount = new Transaction("TXN008",debit,"Have money by Rakotonirina Zo","CREDIT",date,"ACC003");
     TransactionOfTwoAccount.transactionOfAccount(creditorAccount,debitorAccount);
 }
 

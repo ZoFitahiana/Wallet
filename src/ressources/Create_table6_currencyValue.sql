@@ -3,7 +3,7 @@
 CREATE TABLE IF NOT EXISTS CurrencyValue (
     currencyValueId VARCHAR(200) primary key not null ,
     sourceDeviceId VARCHAR(200) REFERENCES currency(currencyId) not null,
-    deviceDestination VARCHAR(200) currency(currencyId) not null ,
+    deviceDestination VARCHAR(200)REFERENCES currency(currencyId) not null ,
     amount NUMERIC,
     date TIMESTAMP
 );
