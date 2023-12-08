@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS currency (
 
 -- insert for currency
 INSERT INTO currency (currencyId, name, code)
-VALUES ('USD', 'US Dollar', 'USD')
+VALUES ('EUR', 'Euro', 'EUR')
 ON CONFLICT (currencyId) DO NOTHING;
 
 INSERT INTO currency (currencyId, name, code)
@@ -15,5 +15,5 @@ VALUES ('EUR', 'Euro', 'EUR')
 ON CONFLICT (currencyId) DO NOTHING;
 
 INSERT INTO currency (currencyId, name, code)
-VALUES ('GBP', 'British Pound', 'GBP')
+VALUES ('AR', 'ariary', 'AR')
 ON CONFLICT (currencyId) DO NOTHING;
