@@ -19,10 +19,5 @@ public class  Main {
         //Test of currency :
           TestOfCurrency.TestCurrency();
 
-        //Test od status of transaction :
-        LocalDateTime start = LocalDateTime.of(2023, 12, 7, 10, 30);
-        LocalDateTime end = LocalDateTime.now();
-
-        StatusOfTransaction.statusOfTransaction(start,end);
     }
 }
