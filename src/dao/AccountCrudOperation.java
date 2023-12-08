@@ -156,7 +156,10 @@ public class AccountCrudOperation implements CrudOperation<Account>{
     public static void balanceAndDateOfAccount(Account account){
         getConnection();
         try {
-            String sql = "select account.balance , transaction.date from account inner join transaction on account.accountId = transaction.accountId where account.accountId = ? ";
+            String sql = "select transaction.date , history.balance from history \n" +
+                    "inner join account ON history.accountId = account.accountId \n" +
+                    "inner join transaction ON history.transactionId = transaction.transactionId \n" +
+                    "where account.accountId = ? ";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, account.getAccountId());
             ResultSet resultSet = statement.executeQuery();
