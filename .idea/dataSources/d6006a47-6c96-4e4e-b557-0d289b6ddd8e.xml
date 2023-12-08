@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="postgres@localhost">
+  <database-model serializer="dbm" dbms="POSTGRES" family-id="POSTGRES" format-version="4.41">
+    <root id="1">
+      <ServerVersion>14.4</ServerVersion>
+    </root>
+    <database id="2" parent="1" name="cnaps"/>
+    <database id="3" parent="1" name="employee"/>
+    <database id="4" parent="1" name="employeemanagement"/>
+    <database id="5" parent="1" name="employees"/>
+    <database id="6" parent="1" name="fichedepay"/>
+    <database id="7" parent="1" name="foot_api"/>
+    <database id="8" parent="1" name="gestion"/>
+    <database id="9" parent="1" name="hei_admin"/>
+    <database id="10" parent="1" name="library_management"/>
+    <database id="11" parent="1" name="lyricsapi"/>
+    <database id="12" parent="1" name="postgres">
+      <Current>1</Current>
+    </database>
+    <database id="13" parent="1" name="prog3_td1"/>
+    <database id="14" parent="1" name="revision"/>
+    <database id="15" parent="1" name="students"/>
+    <database id="16" parent="1" name="template0"/>
+    <database id="17" parent="1" name="template1"/>
+    <database id="18" parent="1" name="tester"/>
+    <database id="19" parent="1" name="userwork"/>
+    <schema id="20" parent="12" name="information_schema"/>
+    <schema id="21" parent="12" name="pg_catalog"/>
+    <schema id="22" parent="12" name="public">
+      <Current>1</Current>
+    </schema>
+  </database-model>
+</dataSource>

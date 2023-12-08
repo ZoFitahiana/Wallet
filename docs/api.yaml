@@ -247,10 +247,21 @@ components:
       properties:
         accountId:
           type: string
+        name:
+          type: string
         balance:
           type: number
-        currency:
-          $ref: '#/components/schemas/Currency'
+        lastUpdate:
+          type: string
+          format: date-time
+        transactionList:
+          type: array
+          items:
+            $ref: '#/components/schemas/Transaction'
+        currencyId:
+          type: string
+        type:
+          type: string
     Transaction:
       type: object
       properties:
@@ -258,7 +269,14 @@ components:
           type: string
         amount:
           type: number
-        description:
+        label:
+          type: string
+        type:
+          type: string
+        date:
+          type: string
+          format: date-time
+        accountId:
           type: string
     Currency:
       type: object

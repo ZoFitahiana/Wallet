@@ -1,28 +1,16 @@
 package model;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Objects;
 
 public class Account {
     private String accountId;
-    private String name;
-    private BigDecimal balance;
-    private LocalDateTime lastUpdate;
-    private List<Transaction> transactionList;
-    private String currencyId;
-    private String type;
+    private int balance ;
+    private String currency;
 
-
-    public Account(String accountId, String name, BigDecimal balance, LocalDateTime lastUpdate, List<Transaction> transactionList, String currencyId, String type) {
+    public Account(String accountId, int balance, String currency) {
         this.accountId = accountId;
-        this.name = name;
         this.balance = balance;
-        this.lastUpdate = lastUpdate;
-        this.transactionList = transactionList;
-        this.currencyId = currencyId;
-        this.type = type;
+        this.currency = currency;
     }
 
     public String getAccountId() {
@@ -33,52 +21,20 @@ public class Account {
         this.accountId = accountId;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public BigDecimal getBalance() {
+    public int getBalance() {
         return balance;
     }
 
-    public void setBalance(BigDecimal balance) {
+    public void setBalance(int balance) {
         this.balance = balance;
     }
 
-    public LocalDateTime getLastUpdate() {
-        return lastUpdate;
+    public String getCurrency() {
+        return currency;
     }
 
-    public void setLastUpdate(LocalDateTime lastUpdate) {
-        this.lastUpdate = lastUpdate;
-    }
-
-    public List<Transaction> getTransactionList() {
-        return transactionList;
-    }
-
-    public void setTransactionList(List<Transaction> transactionList) {
-        this.transactionList = transactionList;
-    }
-
-    public String getCurrencyId() {
-        return currencyId;
-    }
-
-    public void setCurrencyId(String currencyId) {
-        this.currencyId = currencyId;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
     @Override
@@ -86,24 +42,20 @@ public class Account {
         if (this == object) return true;
         if (object == null || getClass() != object.getClass()) return false;
         Account account = (Account) object;
-        return Objects.equals(accountId, account.accountId) && Objects.equals(name, account.name) && Objects.equals(balance, account.balance) && Objects.equals(lastUpdate, account.lastUpdate) && Objects.equals(transactionList, account.transactionList) && Objects.equals(currencyId, account.currencyId)  && Objects.equals(type, account.type);
+        return balance == account.balance && Objects.equals(accountId, account.accountId) && Objects.equals(currency, account.currency);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(accountId, name, balance, lastUpdate, transactionList, currencyId,type);
+        return Objects.hash(accountId, balance, currency);
     }
 
     @Override
     public String toString() {
         return "Account{" +
                 "accountId='" + accountId + '\'' +
-                ", name='" + name + '\'' +
                 ", balance=" + balance +
-                ", lastUpdate=" + lastUpdate +
-                ", transactionList=" + transactionList +
-                ", currencyId='" + currencyId + '\'' +
-                ", type='" + type + '\'' +
+                ", currency='" + currency + '\'' +
                 '}';
     }
 }
