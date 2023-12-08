@@ -44,12 +44,22 @@ public class TransactionOfTwoAccount{
                     String type = resultSet.getString("type");
                     Account account = new Account(accountId,name,balance,lastUpdate,transactionList,currencyId,type);
                     if (account.getBalance().compareTo(creditorAccount.getAmount()) < 0){
-                        System.out.println("Echec transaction ! , your balance is insufficient");
+                        if (account.getType().equals("Bank")){
+                            TransactionCrudOperation transactions = new TransactionCrudOperation();
+                            transactions.save(creditorAccount);
+                            transactions.save(debitorAccount);
+                            SaveHistoryTransaction.registerTransactionHistory(creditorAccount,debitorAccount);
+                        }
+                        else {
+                                System.out.println("Echec transaction ! , your balance is insufficient");
+                        }
+
                     }
                     else{
                         TransactionCrudOperation transactions = new TransactionCrudOperation();
                         transactions.save(creditorAccount);
                         transactions.save(debitorAccount);
+                        SaveHistoryTransaction.registerTransactionHistory(creditorAccount,debitorAccount);
                     }
                    }
             } catch (SQLException e) {
