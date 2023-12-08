@@ -90,6 +90,9 @@ public class TransactionAuthorizationManager {
                       STATEMENT.setBigDecimal(1,newBalance);
                       STATEMENT.setString(2, account.getAccountId());
                       STATEMENT.executeUpdate();
+                      TransactionCrudOperation transactions = new TransactionCrudOperation();
+                      transactions.findById(transaction);
+
 
                       String historySql = "insert into history (accountId,transactionId,balance) values(?,?,?)";
                       PreparedStatement statementOfHistory = connection.prepareStatement(historySql);
@@ -126,6 +129,9 @@ public class TransactionAuthorizationManager {
                       STATEMENT.setBigDecimal(1,newBalances);
                       STATEMENT.setString(2, account.getAccountId());
                       STATEMENT.executeUpdate();
+                      TransactionCrudOperation transactions = new TransactionCrudOperation();
+                      transactions.findById(transaction);
+
 
                       String historySql = "insert into history (accountId,transactionId,balance) values(?,?,?)";
                       PreparedStatement statementOfHistory = connection.prepareStatement(historySql);
