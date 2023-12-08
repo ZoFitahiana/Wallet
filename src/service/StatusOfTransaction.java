@@ -8,13 +8,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
-public class ListeOfCreditorAndDebtor {
+public class StatusOfTransaction {
     private static Connection connection;
     public static void getConnection() {
         ConnectionDB Db = new ConnectionDB();
         connection = Db.createConnection();
     }
-    public static  void statusOfTransaction(){
+    public static  void statusOfTransaction(LocalDateTime start ,LocalDateTime end){
         getConnection();
         try {
             String sql = "SELECT  DISTINCT  subquery1.Account_debtor_id,subquery2.Account_creditor_id,subquery2.Amount,subquery2.dateoftransaction\n" +
@@ -25,8 +25,11 @@ public class ListeOfCreditorAndDebtor {
                     "    account\n" +
                     "    INNER JOIN transaction ON transaction.accountId = account.accountId\n" +
                     "    INNER JOIN  TransferHistory ON transaction.transactionId = TransferHistory.debtortransactionid\n" +
+                    "    WHERE TransferHistory.dateoftransaction BETWEEN ? AND ? "+
                     "    GROUP BY TransferHistory.dateoftransaction,account.accountId,transaction.amount) subquery2;\n";
             PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setObject(1,start);
+            statement.setObject(2,end);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()){
                 String debtorId = resultSet.getString("account_debtor_id");
