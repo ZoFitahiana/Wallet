@@ -10,6 +10,9 @@ import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+
+import static service.GetAmountCurrencyValueByDate.getAmount;
 
 public class TransactionAuthorizationManager {
     private static Connection connection;
@@ -19,10 +22,17 @@ public class TransactionAuthorizationManager {
     }
 
     public static void authorizeTransaction(Account account , Transaction transaction){
+        BigDecimal price = getAmount(transaction.getDate());
         getConnection();
+
         if (transaction.getType().equals("DEBIT") && account.getBalance().compareTo(transaction.getAmount()) < 0 ) {
             if (account.getType().equals("Bank")) {
-                BigDecimal newBalance = account.getBalance().subtract(transaction.getAmount());
+                BigDecimal newBalance;
+                if (!account.getCurrencyId().equals("EUR")){
+                    newBalance = account.getBalance().subtract((transaction.getAmount().multiply(price)));
+                }else {
+                    newBalance = account.getBalance().subtract(transaction.getAmount());
+                }
                 try {
                     String sql = "INSERT INTO transaction (transactionId, amount, label, type, date,accountId) " +
                             "VALUES (?, ?, ?, ?, ?,?) " +
@@ -65,7 +75,12 @@ public class TransactionAuthorizationManager {
         else{
           switch (transaction.getType()){
               case "DEBIT" :
-                  BigDecimal newBalance = account.getBalance().subtract(transaction.getAmount());
+                  BigDecimal newBalance;
+                  if (!account.getCurrencyId().equals("EUR")){
+                      newBalance = account.getBalance().subtract((transaction.getAmount().multiply(price)));
+                  }else {
+                      newBalance = account.getBalance().subtract(transaction.getAmount());
+                  }
                   try {
                       String sql = "INSERT INTO transaction (transactionId, amount, label, type, date,accountId) " +
                               "VALUES (?, ?, ?, ?, ?,?) " +
@@ -104,7 +119,12 @@ public class TransactionAuthorizationManager {
                   }
                   break;
               case "CREDIT":
-                  BigDecimal newBalances = account.getBalance().add(transaction.getAmount());
+                  BigDecimal newBalances;
+                  if (!account.getCurrencyId().equals("EUR")){
+                      newBalances = account.getBalance().add((transaction.getAmount().multiply(price)));
+                  }else {
+                      newBalances = account.getBalance().add(transaction.getAmount());
+                  }
                   try {
                       String sql = "INSERT INTO transaction (transactionId, amount, label, type, date,accountId) " +
                               "VALUES (?, ?, ?, ?, ?,?) " +
