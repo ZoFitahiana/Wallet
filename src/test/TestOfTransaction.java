@@ -26,7 +26,7 @@ public static  void TestTransaction(){
     BigDecimal creditAmount = new BigDecimal("300.45");
     BigDecimal debitAmount = new BigDecimal("200");
 
-/*
+
     //----------------------------------------Test balance < amount of transaction accepted for account type is  BANK
     System.out.println("Test of transaction for balance  < amount to the  account type is BANK : ");
     Transaction transaction = new Transaction("TXN006",debitAmount, "Dinner", "DEBIT",date,"ACC001");
@@ -58,14 +58,14 @@ public static  void TestTransaction(){
     //---------------------------------------Test Find all-------------------------------------:
     System.out.println("List of transaction :");
     transactions.findAll();
-*/
+
     //----------------------------------------Transaction of  account creditor and account debitor :
     System.out.println("Transaction of  account creditor and account debitor :");
-    BigDecimal credit = new BigDecimal("200");
-    BigDecimal debit = new BigDecimal("200");
+    BigDecimal amountOfTransaction = new BigDecimal("1");
+    LocalDateTime dateCurrencyValue = LocalDateTime.of(2023,12,8,12, 0, 0);
 
-    Transaction creditorAccount = new Transaction("TXN006",credit,"Transfer to  Rk Fabien","DEBIT",date,"ACC003");
-    Transaction debitorAccount = new Transaction("TXN005",debit,"Have money by Rakotonirina Zo","CREDIT",date,"ACC001");
+    Transaction creditorAccount = new Transaction("TXN006",amountOfTransaction,"Transfer to  Rk Fabien","DEBIT",dateCurrencyValue,"ACC002");
+    Transaction debitorAccount = new Transaction("TXN005",amountOfTransaction,"Have money by Rakotonirina Zo","CREDIT",dateCurrencyValue,"ACC003");
 
     transactionOfAccount(creditorAccount,debitorAccount);
 }
