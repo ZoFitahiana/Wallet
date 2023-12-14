@@ -42,8 +42,8 @@ public class TestOfTransaction {
     //----------------------------------------Test save list of transaction-----------------------:
     System.out.println("Save list of transaction :");
     List<Transaction> ListOfTransaction = new ArrayList<>();
-    Transaction transaction4 = new Transaction("TXN004", creditAmount, "Groceries", "CREDIT",date,"ACC002","CAT3");
-    Transaction transaction5 = new Transaction("TXN005", debitAmount, "Dinner", "DEBIT",date,"ACC003","CAT2");
+    Transaction transaction4 = new Transaction("TXN004", creditAmount, "Groceries", "CREDIT",date,"ACC003","CAT10");
+    Transaction transaction5 = new Transaction("TXN008", debitAmount, "Dinner", "DEBIT",date,"ACC002","CAT2");
     ListOfTransaction.add(transaction4);
     ListOfTransaction.add(transaction5);
     transactions.saveAll(ListOfTransaction);
@@ -63,7 +63,7 @@ public class TestOfTransaction {
     LocalDateTime dateCurrencyValue = LocalDateTime.of(2023,12,8,12, 0, 0);
 
     Transaction creditorAccount = new Transaction("TXN006",amountOfTransaction,"Transfer to  Rk Fabien","DEBIT",dateCurrencyValue,"ACC002","CAT1");
-    Transaction debitorAccount = new Transaction("TXN005",amountOfTransaction,"Have money by Rakotonirina Zo","CREDIT",dateCurrencyValue,"ACC003","CAT3");
+    Transaction debitorAccount = new Transaction("TXN005",amountOfTransaction,"Have money by Rakotonirina Zo","CREDIT",dateCurrencyValue,"ACC003","CAT10");
 
     transactionOfAccount(creditorAccount,debitorAccount);
 }
