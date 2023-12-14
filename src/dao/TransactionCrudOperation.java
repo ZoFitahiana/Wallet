@@ -35,7 +35,8 @@ public class TransactionCrudOperation implements CrudOperation<Transaction>{
                 String type = resultSet.getString("type");
                 LocalDateTime date = resultSet.getTimestamp("date").toLocalDateTime();
                 String accountId = resultSet.getString("accountId");
-                System.out.println("Transaction : { transactionId = " + transactionId + " , amount = "+ amount + ", label = "+ label + ", type = "+ type + ", date = " +date + "accountId = "+ accountId + "}");
+                String categoriesId = resultSet.getString("categoriesId");
+                System.out.println("Transaction : { transactionId = " + transactionId + " , amount = "+ amount + ", label = "+ label + ", type = "+ type + ", date = " +date + ", accountId = "+ accountId + ", categoriesId = "+ categoriesId + "}");
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -58,7 +59,8 @@ public class TransactionCrudOperation implements CrudOperation<Transaction>{
                 String type = resultSet.getString("type");
                 LocalDateTime date = resultSet.getTimestamp("date").toLocalDateTime();
                 String accountId = resultSet.getString("accountId");
-                Transaction transaction = new Transaction(transactionId,amount,label,type,date,accountId);
+                String categoriesId = resultSet.getString("categoriesId");
+                Transaction transaction = new Transaction(transactionId,amount,label,type,date,accountId,categoriesId);
                 transactionList.add(transaction);
             }
 
@@ -129,13 +131,14 @@ public class TransactionCrudOperation implements CrudOperation<Transaction>{
     public Transaction update(Transaction toUpdate) {
         getConnection();
         try{
-            String sql = "update transaction set amount = ? , label = ? , type = ? , date = ? , accountId = ? where  transactionId = ? ";
+            String sql = "update transaction set amount = ? , label = ? , type = ? , date = ? , accountId = ?,categoriesId = ? where  transactionId = ? ";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setBigDecimal(1,toUpdate.getAmount());
             statement.setString(2,toUpdate.getLabel());
             statement.setString(3,toUpdate.getType());
             statement.setObject(4,toUpdate.getDate());
             statement.setString(5,toUpdate.getAccountId());
+            statement.setString(6,toUpdate.getCategoriesId());
             statement.setString(6,toUpdate.getTransactionId());
 
             int rowsAffected = statement.executeUpdate();
