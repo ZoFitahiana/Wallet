@@ -12,14 +12,24 @@ public class Transaction {
     private String type;
     private LocalDateTime date;
     private String accountId ;
+    private String categoriesId;
 
-    public Transaction(String transactionId, BigDecimal amount, String label, String type, LocalDateTime date, String accountId) {
+    public Transaction(String transactionId, BigDecimal amount, String label, String type, LocalDateTime date, String accountId ,String categoriesId) {
         this.transactionId = transactionId;
         this.amount = amount;
         this.label = label;
         this.type = type;
         this.date = date;
         this.accountId = accountId;
+        this.categoriesId = categoriesId;
+    }
+
+    public String getCategoriesId() {
+        return categoriesId;
+    }
+
+    public void setCategoriesId(String categoriesId) {
+        this.categoriesId = categoriesId;
     }
 
     public String getTransactionId() {
@@ -75,12 +85,12 @@ public class Transaction {
         if (this == object) return true;
         if (object == null || getClass() != object.getClass()) return false;
         Transaction that = (Transaction) object;
-        return Objects.equals(transactionId, that.transactionId) && Objects.equals(amount, that.amount) && Objects.equals(label, that.label) && Objects.equals(type, that.type) && Objects.equals(date, that.date) && Objects.equals(accountId, that.accountId);
+        return Objects.equals(transactionId, that.transactionId) && Objects.equals(amount, that.amount) && Objects.equals(label, that.label) && Objects.equals(type, that.type) && Objects.equals(date, that.date) && Objects.equals(accountId, that.accountId) && Objects.equals(categoriesId, that.categoriesId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(transactionId, amount, label, type, date, accountId);
+        return Objects.hash(transactionId, amount, label, type, date, accountId, categoriesId);
     }
 
     @Override
@@ -92,6 +102,7 @@ public class Transaction {
                 ", type='" + type + '\'' +
                 ", date=" + date +
                 ", accountId='" + accountId + '\'' +
+                ", categoriesId='" + categoriesId + '\'' +
                 '}';
     }
 }
