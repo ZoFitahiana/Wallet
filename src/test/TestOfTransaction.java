@@ -43,14 +43,14 @@ public class TestOfTransaction {
     System.out.println("Save list of transaction :");
     List<Transaction> ListOfTransaction = new ArrayList<>();
     Transaction transaction4 = new Transaction("TXN004", creditAmount, "Groceries", "CREDIT",date,"ACC003","CAT10");
-    Transaction transaction5 = new Transaction("TXN008", debitAmount, "Dinner", "DEBIT",date,"ACC002","CAT2");
+    Transaction transaction5 = new Transaction("TXN008", debitAmount, "Dinner", "DEBIT",date,"ACC003","CAT2");
     ListOfTransaction.add(transaction4);
     ListOfTransaction.add(transaction5);
     transactions.saveAll(ListOfTransaction);
 
     //---------------------------------------Test update Transaction--------------------------------:
     System.out.println("Update transaction :");
-    Transaction setTransaction5 = new Transaction("TXN005", amount, "Bonus", "CREDIT",date,"ACC003","CAT3");
+    Transaction setTransaction5 = new Transaction("TXN004", amount, "Bonus", "CREDIT",date,"ACC003","CAT3");
     transactions.update(setTransaction5);
 
     //---------------------------------------Test Find all-------------------------------------:
