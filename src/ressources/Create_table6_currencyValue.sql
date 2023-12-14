@@ -18,9 +18,9 @@ CREATE TABLE IF NOT EXISTS CurrencyValue (
  LIMIT 1;
 
  INSERT INTO CurrencyValue (currencyValueId, sourceDeviceId, deviceDestination, amount, date)
- SELECT '1', 'AR', 'EUR', 500.00, '2023-12-08 13:00:00'
+ SELECT '2', 'AR', 'EUR', 500.00, '2023-12-08 13:00:00'
  WHERE NOT EXISTS (
      SELECT 1 FROM CurrencyValue
-     WHERE currencyValueId = '1'
+     WHERE currencyValueId = '2'
  )
  LIMIT 1;
