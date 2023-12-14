@@ -11,16 +11,27 @@ CREATE TABLE IF NOT EXISTS transaction (
 
 
 -- Insert  transaction
-INSERT INTO transaction  (transactionId, amount, label, type, date,accountId,categoriesId )
-VALUES ('TXN001', 100.50, 'Groceries', 'DEBIT', '2023-12-06 12:30:00','ACC001','INCOME')
-ON CONFLICT (transactionId) DO NOTHING;
+-- Insert transaction
+INSERT INTO transaction (transactionId, amount, label, type, date, accountId, categoriesId)
+SELECT 'TXN001', 100.50, 'Groceries', 'DEBIT', '2023-12-06 12:30:00', 'ACC001', 'CAT1'
+WHERE NOT EXISTS (
+    SELECT 1 FROM transaction
+    WHERE transactionId = 'TXN001'
+)
+LIMIT 1;
 
+INSERT INTO transaction (transactionId, amount, label, type, date, accountId, categoriesId)
+SELECT 'TXN002', 50.25, 'Dinner', 'DEBIT', '2023-12-06 18:45:00', 'ACC002', 'CAT2'
+WHERE NOT EXISTS (
+    SELECT 1 FROM transaction
+    WHERE transactionId = 'TXN002'
+)
+LIMIT 1;
 
-INSERT INTO transaction (transactionId, amount, label, type, date,accountId,categoriesId )
-VALUES ('TXN002', 50.25, 'Dinner', 'DEBIT', '2023-12-06 18:45:00','ACC002','INCOME')
-ON CONFLICT (transactionId) DO NOTHING;
-
-
-INSERT INTO transaction (transactionId, amount, label, type, date,accountId,categoriesId )
-VALUES ('TXN003', 200.00, 'Salary', 'CREDIT', '2023-12-07 09:00:00','ACC003','EXPENSE')
-ON CONFLICT (transactionId) DO NOTHING;
+INSERT INTO transaction (transactionId, amount, label, type, date, accountId, categoriesId)
+SELECT 'TXN003', 200.00, 'Salary', 'CREDIT', '2023-12-07 09:00:00', 'ACC003', 'CAT3'
+WHERE NOT EXISTS (
+    SELECT 1 FROM transaction
+    WHERE transactionId = 'TXN003'
+)
+LIMIT 1;
