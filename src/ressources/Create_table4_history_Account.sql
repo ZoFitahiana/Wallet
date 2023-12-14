@@ -12,5 +12,3 @@ CREATE TABLE IF NOT EXISTS history (
     accountId VARCHAR(200) REFERENCES account(accountId) NOT NULL,
     balance NUMERIC
 );
-
-
