@@ -139,7 +139,7 @@ public class TransactionCrudOperation implements CrudOperation<Transaction>{
             statement.setObject(4,toUpdate.getDate());
             statement.setString(5,toUpdate.getAccountId());
             statement.setString(6,toUpdate.getCategoriesId());
-            statement.setString(6,toUpdate.getTransactionId());
+            statement.setString(7,toUpdate.getTransactionId());
 
             int rowsAffected = statement.executeUpdate();
 
