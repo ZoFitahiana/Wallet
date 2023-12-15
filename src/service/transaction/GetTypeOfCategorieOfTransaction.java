@@ -1,4 +1,4 @@
-package service;
+package service.transaction;
 
 import configuration.ConnectionDB;
 import model.Categories;
