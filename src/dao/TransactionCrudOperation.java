@@ -3,7 +3,7 @@ package dao;
 import configuration.ConnectionDB;
 import model.Account;
 import model.Transaction;
-import service.TransactionAuthorizationManager;
+import service.transaction.TransactionAuthorizationManager;
 
 import java.math.BigDecimal;
 import java.sql.*;
