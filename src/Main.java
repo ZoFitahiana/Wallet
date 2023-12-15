@@ -8,6 +8,8 @@ import java.time.LocalDateTime;
 
 import static test.test_function_sql.TestOfTotalAmountTransactionUseFunction.testOfTotalAmountTransactionByTypeNotUseFunction;
 import static test.test_function_sql.TestOfTotalAmountsCategoryAndName.testCategoryNameAndAmountsFunction;
+import static test.test_function_sql.testTotalAmountOfCategoryNotUseFunctionSQL.TestTotalAmountOfCategoryNotUseFunction;
+import static test.test_function_sql.testTotalAmountTransactionByTypeNotUseFunctionSQL.TotalAmountTransactionByTypeNotUseFunctionSQL;
 
 public class  Main {
     public static void main(String[] args) throws SQLException {
@@ -28,13 +30,15 @@ public class  Main {
         LocalDateTime end = LocalDateTime.now();
         StatusOfTransaction.statusOfTransaction(start,end);
 
-
         // Test of total amount transaction by type map the function sql :
         testOfTotalAmountTransactionByTypeNotUseFunction();
 
         //Test category total  amount and category name to  map the function :
         testCategoryNameAndAmountsFunction();
 
+
+        //TestTotalAmountOfCategoryNotUseFunction();
+        TotalAmountTransactionByTypeNotUseFunctionSQL();
 
 }
 }
