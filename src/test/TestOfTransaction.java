@@ -2,16 +2,13 @@ package test;
 
 import model.Transaction;
 import dao.TransactionCrudOperation;
-import service.TransactionOfTwoAccount;
 
-import javax.swing.plaf.synth.SynthOptionPaneUI;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static service.TransactionOfTwoAccount.transactionOfAccount;
+import static service.transaction.TransactionOfTwoAccount.transactionOfAccount;
 
 public class TestOfTransaction {
 
