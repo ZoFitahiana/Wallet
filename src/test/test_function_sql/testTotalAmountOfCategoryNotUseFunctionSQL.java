@@ -10,6 +10,7 @@ import static service.function_sql.getTotalAmountOfCategory.TotalAmountOfCategor
 
 public class testTotalAmountOfCategoryNotUseFunctionSQL {
     public  static  void TestTotalAmountOfCategoryNotUseFunction() throws SQLException {
+        System.out.println("Total amount category by type and category name : ");
         String id = "ACC003";
         LocalDateTime start = LocalDateTime.of(2023,12,1,12,30,0);
         LocalDateTime end = LocalDateTime.of(2024,1,1,12,30,0);
