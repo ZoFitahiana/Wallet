@@ -6,6 +6,7 @@ import static service.function_sql.getTotalAmountOfTransactionByType.TotalAmount
 
 public class testTotalAmountTransactionByTypeNotUseFunctionSQL {
     public static  void TotalAmountTransactionByTypeNotUseFunctionSQL(){
+        System.out.println("Total amount transaction by type of account :");
         String id = "ACC003";
         LocalDateTime start = LocalDateTime.of(2023,12,1,12,30,0);
         LocalDateTime end = LocalDateTime.of(2024,1,1,12,30,0);
