@@ -14,7 +14,7 @@ import static test.test_function_sql.testTotalAmountTransactionByTypeNotUseFunct
 public class  Main {
     public static void main(String[] args) throws SQLException {
 
-        //Test of transaction :
+       //Test of transaction :
         TestOfTransaction.TestTransaction();
 
         //Test of account :
@@ -37,8 +37,14 @@ public class  Main {
         testCategoryNameAndAmountsFunction();
 
 
-        //TestTotalAmountOfCategoryNotUseFunction();
+        //Test total transaction by type of account ;
         TotalAmountTransactionByTypeNotUseFunctionSQL();
+
+
+        //Test total amount category not use function
+        TestTotalAmountOfCategoryNotUseFunction();
+
+
 
 }
 }
