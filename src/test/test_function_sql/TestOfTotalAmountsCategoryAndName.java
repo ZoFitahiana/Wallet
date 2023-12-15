@@ -8,7 +8,7 @@ import static service.function_sql.getTotalAmountOfCategoryUseFunction.getCatego
 public class TestOfTotalAmountsCategoryAndName {
 
     public  static  void  testCategoryNameAndAmountsFunction() throws SQLException {
-        System.out.println(" Category and total amount  not use function :");
+        System.out.println(" Category and total amount   use function :");
         String id = "ACC003";
         LocalDateTime start = LocalDateTime.of(2023,12,1,12,30,0);
         LocalDateTime end = LocalDateTime.of(2024,1,1,12,30,0);
