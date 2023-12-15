@@ -1,4 +1,4 @@
-package service;
+package service.transaction;
 
 import configuration.ConnectionDB;
 import dao.TransactionCrudOperation;
@@ -11,7 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Objects;
 
-import static service.GetTypeOfCategorieOfTransaction.getTypeCategories;
+import static service.transaction.GetTypeOfCategorieOfTransaction.getTypeCategories;
 
 public class TransactionAuthorizationManager {
     private static Connection connection;
