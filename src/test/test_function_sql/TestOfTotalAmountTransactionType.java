@@ -1,8 +1,8 @@
-package test;
+package test.test_function_sql;
 
 import java.time.LocalDateTime;
 
-import static service.GetTotalAmountType.getTotalAmountType;
+import static service.function_sql.GetTotalAmountType.getTotalAmountType;
 
 public class TestOfTotalAmountTransactionType {
     public static  void testOfTotalAmountTransactionType(){
