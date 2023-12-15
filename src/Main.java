@@ -1,3 +1,4 @@
+import service.transaction.StatusOfTransaction;
 import test.TestOfAccount;
 import test.TestOfCurrency;
 import test.TestOfTransaction;
@@ -5,10 +6,8 @@ import test.TestOfTransaction;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
-import static test.test_function_sql.TestCategoryAmountNotUseFunction.testCategoryAmountNotUseFunction;
-import static test.test_function_sql.TestGetCategoryAmounts.testGetCategoryAmounts;
-import static test.test_function_sql.TestOfTotalAmountTransactionType.testOfTotalAmountTransactionType;
-import static test.test_function_sql.TestTotalAmountTypeNotUseFunctionSQL.testOfTotalAmountTransactionByTypeNotUseFunction;
+import static test.test_function_sql.TestOfTotalAmountTransactionUseFunction.testOfTotalAmountTransactionByTypeNotUseFunction;
+import static test.test_function_sql.TestOfTotalAmountsCategoryAndName.testCategoryNameAndAmountsFunction;
 
 public class  Main {
     public static void main(String[] args) throws SQLException {
@@ -22,26 +21,20 @@ public class  Main {
 
 
         //Test of currency :
-         TestOfCurrency.TestCurrency();
+        TestOfCurrency.TestCurrency();
 
         //Test od status of transaction :
         LocalDateTime start = LocalDateTime.of(2023, 12, 7, 10, 30);
         LocalDateTime end = LocalDateTime.now();
-        //StatusOfTransaction.statusOfTransaction(start,end);
+        StatusOfTransaction.statusOfTransaction(start,end);
 
 
-        // Test of total amount transaction by type not use function :
+        // Test of total amount transaction by type map the function sql :
         testOfTotalAmountTransactionByTypeNotUseFunction();
 
-        //Test category amount not use function :
-        testCategoryAmountNotUseFunction();
+        //Test category total  amount and category name to  map the function :
+        testCategoryNameAndAmountsFunction();
 
 
-
-        // Get total amount transaction type
-        testOfTotalAmountTransactionType();
-
-        // get category total amounts
-        testGetCategoryAmounts();
 }
 }
