@@ -14,11 +14,11 @@ public class TestOfCurrency {
         //-------------------------------------------save Currency-----------------------:
         System.out.println("Save currency :");
         Currency currency = new Currency("AR","Ariary","AR");
-        currencyCrudOperation.save(currency);
+        System.out.println(currencyCrudOperation.save(currency));
 
         //---------------------------------------------find by id------------------------:
         System.out.println("Find by id of currency : ");
-        currencyCrudOperation.findById(currency);
+        System.out.println(currencyCrudOperation.findById(currency));
 
         //---------------------------------------------save list of currency-------------:
         System.out.println("Save list of currency :");
@@ -27,16 +27,16 @@ public class TestOfCurrency {
         Currency currency2 = new Currency("GBP2", "British Pound", "GBP");
         currencies.add(currency1);
         currencies.add(currency2);
-        currencyCrudOperation.saveAll(currencies);
+        System.out.println(currencyCrudOperation.saveAll(currencies));
 
         //---------------------------------------------update currency------------------:
         System.out.println("Update currency : ");
         Currency SetCurrency = new Currency("AR","ARIARY","AR");
-        currencyCrudOperation.update(SetCurrency);
+        System.out.println(currencyCrudOperation.update(SetCurrency));
 
         //---------------------------------------------Find all currency-----------------:
         System.out.println("List of currency :");
-        currencyCrudOperation.findAll();
+        System.out.println(currencyCrudOperation.findAll());
 
 
     }

@@ -1,4 +1,4 @@
-package service.transaction;
+package utils.transaction;
 
 import configuration.ConnectionDB;
 import dao.AccountCrudOperation;
@@ -16,23 +16,19 @@ import java.util.List;
 
 
 public class TransactionOfTwoAccount{
-    private static Connection connection;
-    public static void getConnection() {
-        ConnectionDB Db = new ConnectionDB();
-        connection = Db.createConnection();
-    }
-
     public static void transactionOfAccount(Transaction creditorAccount , Transaction debitorAccount) {
         if (creditorAccount.equals(debitorAccount)){
-            System.out.println("Transaction invalid");
-
-        }else{
-            getConnection();
+            throw new RuntimeException("Transaction invalid");
+            }else{
+            Connection connection = null;
+            PreparedStatement statement = null;
+            ResultSet resultSet = null;
             try {
                 String sql = "select * from account where accountId = ? ";
-                PreparedStatement statement = connection.prepareStatement(sql);
+                connection = ConnectionDB.createConnection();
+                statement = connection.prepareStatement(sql);
                 statement.setString(1,creditorAccount.getAccountId());
-                ResultSet resultSet = statement.executeQuery();
+                resultSet = statement.executeQuery();
                 while(resultSet.next()) {
                     String accountId = resultSet.getString("accountId");
                     String name = resultSet.getString("name");
@@ -51,7 +47,7 @@ public class TransactionOfTwoAccount{
                             SaveHistoryTransaction.registerTransactionHistory(creditorAccount,debitorAccount);
                         }
                         else {
-                                System.out.println("Echec transaction ! , your balance is insufficient");
+                            throw new RuntimeException("Echec transaction ! , your balance is insufficient");
                         }
 
                     }
@@ -64,6 +60,25 @@ public class TransactionOfTwoAccount{
                    }
             } catch (SQLException e) {
                 throw new RuntimeException(e);
+            }
+            finally {
+                try {
+                    if (resultSet != null){
+                        resultSet.close();
+                    }
+                    if (statement != null){
+                        statement.close();
+                    }
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+                try {
+                    if (connection != null ){
+                        connection.close();
+                    }
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
 

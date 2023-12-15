@@ -3,7 +3,7 @@ package test;
 import model.Account;
 import dao.AccountCrudOperation;
 import model.Transaction;
-import service.HistoryOfBalance;
+import utils.HistoryOfBalance;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -39,12 +39,12 @@ public class TestOfAccount {
         //----------------------------------------Find by id------------------------------------ :
         System.out.println("Find by Id account : ");
         Account account = new Account("ACC002", "John Doe", balance2,date,ListOfTransaction, "AR", "Bank");
-        accounts.findById(account);
+        System.out.println(accounts.findById(account));
 
         //------------------------------------------Save account--------------------------------- :
         System.out.println("This account is saved  : ");
         Account Account5 = new Account("ACC005", "RKT Zo", balance2,date,ListOfTransaction, "AR", "Bank");
-        accounts.save(Account5);
+        System.out.println(accounts.save(Account5));
 
         //------------------------------------------save list of account----------------------------:
         System.out.println("This list of account is saved : ");
@@ -53,16 +53,16 @@ public class TestOfAccount {
         List<Account> listAccount = new ArrayList<>();
         listAccount.add(setAccount5);
         listAccount.add(account6);
-        accounts.saveAll(listAccount);
+        System.out.println(accounts.saveAll(listAccount));
 
         //--------------------------------------------Update account------------------------------- :
         System.out.println("This account has been successfully updated :");
         Account setAccount6 = new Account("ACC006", "Rakotonirina Zo", balance4,date,ListOfTransaction, "EUR", "Cash");
-        accounts.update(setAccount6);
+        System.out.println(accounts.update(setAccount6));
 
         //--------------------------------------------Find all account------------------------------:
         System.out.println("List of account : ");
-        accounts.findAll();
+        System.out.println(accounts.findAll());
 
         //-------------------------------------------List balance & date of transition--------------;
         System.out.println("Date of transition & balance of account : ");

@@ -1,4 +1,4 @@
-package service.function_sql;
+package utils.function_sql;
 
 import configuration.ConnectionDB;
 
@@ -11,21 +11,18 @@ import java.time.LocalDateTime;
 
 public class getTotalAmountTransactionTypeUseFunction {
     public static class TotalAmountByTypeOfTransaction {
-        private static Connection connection;
-        public static void getConnection() {
-            ConnectionDB Db = new ConnectionDB();
-            connection = Db.createConnection();
-
-        }
         public static  void getTotalAmountTypeNotUseFunctionSQL(String id , LocalDateTime startDate , LocalDateTime endDate){
-            getConnection();
+            Connection connection = null;
+            PreparedStatement statement = null;
+            ResultSet resultSet = null;
             try{
                 String sql = "SELECT * FROM getTotalAmount(?,?,?)";
-                PreparedStatement statement = connection.prepareStatement(sql);
+                connection = ConnectionDB.createConnection();
+                statement = connection.prepareStatement(sql);
                 statement.setString(1,id);
                 statement.setObject(2,startDate);
                 statement.setObject(3,endDate);
-                ResultSet resultSet = statement.executeQuery();
+                resultSet = statement.executeQuery();
                 while (resultSet.next()){
                     BigDecimal Total_Amount_Credit = resultSet.getBigDecimal("TotalAmountCredit");
                     BigDecimal Total_Amount_Debit = resultSet.getBigDecimal("TotalAmountDebit");
@@ -33,6 +30,25 @@ public class getTotalAmountTransactionTypeUseFunction {
                 }
             } catch (SQLException e) {
                 throw new RuntimeException(e);
+            }
+            finally {
+                try {
+                    if (resultSet != null){
+                        resultSet.close();
+                    }
+                    if (statement != null){
+                        statement.close();
+                    }
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+                try {
+                    if (connection != null ){
+                        connection.close();
+                    }
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
     }

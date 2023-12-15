@@ -1,4 +1,4 @@
-package service.transaction;
+package utils.transaction;
 
 import configuration.ConnectionDB;
 import dao.TransactionCrudOperation;
@@ -8,20 +8,17 @@ import model.Transaction;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
 
-import static service.transaction.GetTypeOfCategorieOfTransaction.getTypeCategories;
+import static utils.transaction.GetTypeOfCategorieOfTransaction.getTypeCategories;
 
 public class TransactionAuthorizationManager {
-    private static Connection connection;
-    public static void getConnection() {
-        ConnectionDB Db = new ConnectionDB();
-        connection = Db.createConnection();
-    }
-
     public static void authorizeTransaction(Account account , Transaction transaction){
-        getConnection();
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
         String typeCategories = getTypeCategories(transaction.getCategoriesId());
         if ((transaction.getType().equals("DEBIT") && Objects.equals(typeCategories, "EXPENSE")) || ((transaction.getType().equals("CREDIT") && (Objects.equals(typeCategories, "INCOME"))))){
             if (transaction.getType().equals("DEBIT") && account.getBalance().compareTo(transaction.getAmount()) < 0 ) {
@@ -34,7 +31,8 @@ public class TransactionAuthorizationManager {
                                 "DO UPDATE SET amount = EXCLUDED.amount, label = EXCLUDED.label, " +
                                 "type = EXCLUDED.type, date = EXCLUDED.date , accountId = EXCLUDED.accountId , categoriesId = EXCLUDED.categoriesId";
 
-                        PreparedStatement statement = connection.prepareStatement(sql);
+                        connection = ConnectionDB.createConnection();
+                        statement = connection.prepareStatement(sql);
                         statement.setString(1, transaction.getTransactionId());
                         statement.setBigDecimal(2, transaction.getAmount());
                         statement.setString(3, transaction.getLabel());
@@ -45,26 +43,26 @@ public class TransactionAuthorizationManager {
                         statement.executeUpdate();
 
                         String SQL = "update account set balance = ? WHERE accountId = ?";
-                        PreparedStatement STATEMENT = connection.prepareStatement(SQL);
-                        STATEMENT.setBigDecimal(1,newBalance);
-                        STATEMENT.setString(2, account.getAccountId());
-                        STATEMENT.executeUpdate();
+                        statement = connection.prepareStatement(SQL);
+                        statement.setBigDecimal(1,newBalance);
+                        statement .setString(2, account.getAccountId());
+                        statement.executeUpdate();
                         TransactionCrudOperation transactions = new TransactionCrudOperation();
                         transactions.findById(transaction);
 
                         String historySql = "insert into history (accountId,transactionId,balance) values(?,?,?)";
-                        PreparedStatement statementOfHistory = connection.prepareStatement(historySql);
-                        statementOfHistory.setString(1,account.getAccountId());
-                        statementOfHistory.setString(2,transaction.getTransactionId());
-                        statementOfHistory.setBigDecimal(3,account.getBalance());
-                        statementOfHistory.executeUpdate();
+                        statement = connection.prepareStatement(historySql);
+                        statement.setString(1,account.getAccountId());
+                        statement.setString(2,transaction.getTransactionId());
+                        statement.setBigDecimal(3,account.getBalance());
+                        statement.executeUpdate();
 
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
                     }
 
                 }else{
-                    System.out.println("Your balance is insufficient");
+                    throw  new RuntimeException("Your balance is insufficient");
                 }
             }
             else{
@@ -77,8 +75,8 @@ public class TransactionAuthorizationManager {
                                     "ON CONFLICT (transactionId) " +
                                     "DO UPDATE SET amount = EXCLUDED.amount, label = EXCLUDED.label, " +
                                     "type = EXCLUDED.type, date = EXCLUDED.date , accountId = EXCLUDED.accountId , categoriesId = EXCLUDED.categoriesId";
-
-                            PreparedStatement statement = connection.prepareStatement(sql);
+                            connection = ConnectionDB.createConnection();
+                            statement = connection.prepareStatement(sql);
                             statement.setString(1, transaction.getTransactionId());
                             statement.setBigDecimal(2, transaction.getAmount());
                             statement.setString(3, transaction.getLabel());
@@ -89,21 +87,20 @@ public class TransactionAuthorizationManager {
                             statement.executeUpdate();
 
                             String SQL = "update account set balance = ? WHERE accountId = ?";
-                            PreparedStatement STATEMENT = connection.prepareStatement(SQL);
-                            STATEMENT.setBigDecimal(1,newBalance);
-                            STATEMENT.setString(2, account.getAccountId());
-                            STATEMENT.executeUpdate();
+                            statement = connection.prepareStatement(SQL);
+                            statement.setBigDecimal(1,newBalance);
+                            statement.setString(2, account.getAccountId());
+                            statement.executeUpdate();
                             TransactionCrudOperation transactions = new TransactionCrudOperation();
                             transactions.findById(transaction);
 
 
                             String historySql = "insert into history (accountId,transactionId,balance) values(?,?,?)";
-                            PreparedStatement statementOfHistory = connection.prepareStatement(historySql);
-                            statementOfHistory.setString(1,account.getAccountId());
-                            statementOfHistory.setString(2,transaction.getTransactionId());
-                            statementOfHistory.setBigDecimal(3,account.getBalance());
-                            statementOfHistory.executeUpdate();
-
+                            statement = connection.prepareStatement(historySql);
+                            statement.setString(1,account.getAccountId());
+                            statement.setString(2,transaction.getTransactionId());
+                            statement.setBigDecimal(3,account.getBalance());
+                            statement.executeUpdate();
 
                         } catch (SQLException e) {
                             throw new RuntimeException(e);
@@ -117,8 +114,8 @@ public class TransactionAuthorizationManager {
                                     "ON CONFLICT (transactionId) " +
                                     "DO UPDATE SET amount = EXCLUDED.amount, label = EXCLUDED.label, " +
                                     "type = EXCLUDED.type, date = EXCLUDED.date , accountId = EXCLUDED.accountId ,categoriesId = EXCLUDED.categoriesId";
-
-                            PreparedStatement statement = connection.prepareStatement(sql);
+                            connection = ConnectionDB.createConnection();
+                            statement = connection.prepareStatement(sql);
                             statement.setString(1, transaction.getTransactionId());
                             statement.setBigDecimal(2, transaction.getAmount());
                             statement.setString(3, transaction.getLabel());
@@ -129,31 +126,49 @@ public class TransactionAuthorizationManager {
                             statement.executeUpdate();
 
                             String SQL = "update account set balance = ? WHERE accountId = ?";
-                            PreparedStatement STATEMENT = connection.prepareStatement(SQL);
-                            STATEMENT.setBigDecimal(1,newBalances);
-                            STATEMENT.setString(2, account.getAccountId());
-                            STATEMENT.executeUpdate();
+                            statement = connection.prepareStatement(SQL);
+                            statement.setBigDecimal(1,newBalances);
+                            statement.setString(2, account.getAccountId());
+                            statement.executeUpdate();
                             TransactionCrudOperation transactions = new TransactionCrudOperation();
                             transactions.findById(transaction);
 
 
                             String historySql = "insert into history (accountId,transactionId,balance) values(?,?,?)";
-                            PreparedStatement statementOfHistory = connection.prepareStatement(historySql);
-                            statementOfHistory.setString(1,account.getAccountId());
-                            statementOfHistory.setString(2,transaction.getTransactionId());
-                            statementOfHistory.setBigDecimal(3,account.getBalance());
-                            statementOfHistory.executeUpdate();
-
+                            statement = connection.prepareStatement(historySql);
+                            statement.setString(1,account.getAccountId());
+                            statement.setString(2,transaction.getTransactionId());
+                            statement.setBigDecimal(3,account.getBalance());
+                            statement.executeUpdate();
 
                         } catch (SQLException e) {
                             throw new RuntimeException(e);
+                        }
+                        finally {
+                            try {
+                                if (resultSet != null){
+                                    resultSet.close();
+                                }
+                                if (statement != null){
+                                    statement.close();
+                                }
+                            } catch (SQLException e) {
+                                throw new RuntimeException(e);
+                            }
+                            try {
+                                if (connection != null ){
+                                    connection.close();
+                                }
+                            } catch (SQLException e) {
+                                throw new RuntimeException(e);
+                            }
                         }
                         break;
                 }
             }
 
         }else{
-            System.out.println("Verify your type categories or type transaction ");
+            throw  new RuntimeException("Verify your type categories or type transaction");
         }
     }
 }

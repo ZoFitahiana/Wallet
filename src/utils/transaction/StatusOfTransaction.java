@@ -1,4 +1,4 @@
-package service.transaction;
+package utils.transaction;
 
 import configuration.ConnectionDB;
 
@@ -9,13 +9,10 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 public class StatusOfTransaction {
-    private static Connection connection;
-    public static void getConnection() {
-        ConnectionDB Db = new ConnectionDB();
-        connection = Db.createConnection();
-    }
     public static  void statusOfTransaction(LocalDateTime start ,LocalDateTime end){
-        getConnection();
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
         try {
             String sql = "SELECT  DISTINCT  subquery1.Account_debtor_id,subquery2.Account_creditor_id,subquery2.Amount,subquery2.dateoftransaction\n" +
                     "FROM \n" +
@@ -27,10 +24,11 @@ public class StatusOfTransaction {
                     "    INNER JOIN  TransferHistory ON transaction.transactionId = TransferHistory.debtortransactionid\n" +
                     "    WHERE TransferHistory.dateoftransaction BETWEEN ? AND ? "+
                     "    GROUP BY TransferHistory.dateoftransaction,account.accountId,transaction.amount) subquery2;\n";
-            PreparedStatement statement = connection.prepareStatement(sql);
+            connection = ConnectionDB.createConnection();
+            statement = connection.prepareStatement(sql);
             statement.setObject(1,start);
             statement.setObject(2,end);
-            ResultSet resultSet = statement.executeQuery();
+            resultSet = statement.executeQuery();
             while (resultSet.next()){
                 String debtorId = resultSet.getString("account_debtor_id");
                 String creditorId = resultSet.getString("account_creditor_id");
@@ -40,6 +38,25 @@ public class StatusOfTransaction {
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+        finally {
+            try {
+                if (resultSet != null){
+                    resultSet.close();
+                }
+                if (statement != null){
+                    statement.close();
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                if (connection != null ){
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }

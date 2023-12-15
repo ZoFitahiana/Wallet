@@ -3,7 +3,7 @@ package test.test_function_sql;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
-import static service.function_sql.getTotalAmountOfCategoryUseFunction.getCategoryNameAndAmountsUseFunction;
+import static utils.function_sql.getTotalAmountOfCategoryUseFunction.getCategoryNameAndAmountsUseFunction;
 
 public class TestOfTotalAmountsCategoryAndName {
 

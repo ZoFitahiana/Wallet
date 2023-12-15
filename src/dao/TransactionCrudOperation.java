@@ -3,7 +3,7 @@ package dao;
 import configuration.ConnectionDB;
 import model.Account;
 import model.Transaction;
-import service.transaction.TransactionAuthorizationManager;
+import utils.transaction.TransactionAuthorizationManager;
 
 import java.math.BigDecimal;
 import java.sql.*;
@@ -13,21 +13,19 @@ import java.util.List;
 
 
 public class TransactionCrudOperation implements CrudOperation<Transaction>{
-    private static Connection connection;
-    public static void getConnection() {
-        ConnectionDB Db = new ConnectionDB();
-        connection = Db.createConnection();
-    }
-
     @Override
     public Transaction findById(Transaction id) {
-        getConnection();
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        Transaction transaction = null;
 
         try{
             String sql = "select * from transaction where transactionId = ?";
-            PreparedStatement statement = connection.prepareStatement(sql);
+            connection = ConnectionDB.createConnection();
+            statement = connection.prepareStatement(sql);
             statement.setString(1,id.getTransactionId());
-            ResultSet resultSet = statement.executeQuery();
+            resultSet = statement.executeQuery();
             while (resultSet.next()){
                 String transactionId = resultSet.getString("transactionId");
                 BigDecimal amount = resultSet.getBigDecimal("amount");
@@ -36,22 +34,44 @@ public class TransactionCrudOperation implements CrudOperation<Transaction>{
                 LocalDateTime date = resultSet.getTimestamp("date").toLocalDateTime();
                 String accountId = resultSet.getString("accountId");
                 String categoriesId = resultSet.getString("categoriesId");
-                System.out.println("Transaction : { transactionId = " + transactionId + " , amount = "+ amount + ", label = "+ label + ", type = "+ type + ", date = " +date + ", accountId = "+ accountId + ", categoriesId = "+ categoriesId + "}");
+                transaction = new Transaction(transactionId,amount,label,type,date,accountId,categoriesId);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return null ;
+        finally {
+            try {
+                if (resultSet != null){
+                    resultSet.close();
+                }
+                if (statement != null){
+                    statement.close();
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                if (connection != null ){
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return transaction ;
     }
 
     @Override
     public List<Transaction> findAll() {
-        getConnection();
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
         List<Transaction> transactionList = new ArrayList<>();
         try{
             String sql = "select * from transaction ";
-            PreparedStatement statement = connection.prepareStatement(sql);
-            ResultSet resultSet = statement.executeQuery();
+            connection = ConnectionDB.createConnection();
+            statement = connection.prepareStatement(sql);
+            resultSet = statement.executeQuery();
             while (resultSet.next()){
                 String transactionId = resultSet.getString("transactionId");
                 BigDecimal amount = resultSet.getBigDecimal("amount");
@@ -67,20 +87,39 @@ public class TransactionCrudOperation implements CrudOperation<Transaction>{
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        for (Transaction transaction : transactionList){
-            System.out.println(transaction);
+        finally {
+            try {
+                if (resultSet != null){
+                    resultSet.close();
+                }
+                if (statement != null){
+                    statement.close();
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                if (connection != null ){
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
-        return null;
+        return transactionList;
     }
 
     @Override
     public Transaction save(Transaction toSave) {
-        getConnection();
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
         try{
             String sql = "select * from account where accountId = ? ";
-            PreparedStatement statement = connection.prepareStatement(sql);
+            connection = ConnectionDB.createConnection();
+            statement = connection.prepareStatement(sql);
             statement.setString(1,toSave.getAccountId());
-            ResultSet resultSet = statement.executeQuery();
+            resultSet = statement.executeQuery();
             while(resultSet.next()) {
                 String accountId = resultSet.getString("accountId");
                 String name = resultSet.getString("name");
@@ -96,18 +135,41 @@ public class TransactionCrudOperation implements CrudOperation<Transaction>{
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return null;
+        finally {
+            try {
+                if (resultSet != null){
+                    resultSet.close();
+                }
+                if (statement != null){
+                    statement.close();
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                if (connection != null ){
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return toSave;
     }
 
     @Override
     public List<Transaction> saveAll(List<Transaction> tosave) {
-        getConnection();
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
         try {
             for (Transaction transaction : tosave) {
                 String sql = "select * from account where accountId = ? ";
-                PreparedStatement statement = connection.prepareStatement(sql);
+                connection = ConnectionDB.createConnection();
+                statement = connection.prepareStatement(sql);
                 statement.setString(1, transaction.getAccountId());
-                ResultSet resultSet = statement.executeQuery();
+                resultSet = statement.executeQuery();
                 while (resultSet.next()) {
                     String accountId = resultSet.getString("accountId");
                     String name = resultSet.getString("name");
@@ -121,18 +183,39 @@ public class TransactionCrudOperation implements CrudOperation<Transaction>{
                     TransactionAuthorizationManager.authorizeTransaction(account, transaction);
                 }
             }
-            return null;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        finally {
+            try {
+                if (resultSet != null){
+                    resultSet.close();
+                }
+                if (statement != null){
+                    statement.close();
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                if (connection != null ){
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return  tosave;
     }
 
         @Override
     public Transaction update(Transaction toUpdate) {
-        getConnection();
+            Connection connection = null;
+            PreparedStatement statement = null;
         try{
             String sql = "update transaction set amount = ? , label = ? , type = ? , date = ? , accountId = ?,categoriesId = ? where  transactionId = ? ";
-            PreparedStatement statement = connection.prepareStatement(sql);
+            connection = ConnectionDB.createConnection();
+            statement = connection.prepareStatement(sql);
             statement.setBigDecimal(1,toUpdate.getAmount());
             statement.setString(2,toUpdate.getLabel());
             statement.setString(3,toUpdate.getType());
@@ -148,6 +231,22 @@ public class TransactionCrudOperation implements CrudOperation<Transaction>{
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+        finally {
+            try {
+                if (statement != null){
+                    statement.close();
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                if (connection != null ){
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
         return findById(toUpdate);
     }

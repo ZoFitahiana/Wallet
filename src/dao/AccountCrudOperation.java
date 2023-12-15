@@ -14,20 +14,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AccountCrudOperation implements CrudOperation<Account>{
-    private static Connection connection;
-    public static void getConnection() {
-        ConnectionDB Db = new ConnectionDB();
-        connection = Db.createConnection();
-    }
 
     @Override
     public Account findById(Account id) {
-        getConnection();
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        Account account = null;
         try{
             String sql = "select * from  account   where accountId = ? ";
-            PreparedStatement statement = connection.prepareStatement(sql);
+            connection = ConnectionDB.createConnection();
+            statement = connection.prepareStatement(sql);
             statement.setString(1, id.getAccountId());
-            ResultSet resultSet = statement.executeQuery();
+            resultSet = statement.executeQuery();
+
             while(resultSet.next()){
                 String accountId = resultSet.getString("accountId");
                 String name = resultSet.getString("name");
@@ -36,20 +36,44 @@ public class AccountCrudOperation implements CrudOperation<Account>{
                 List<Transaction> transactionList = getTransactionsForAccount(resultSet.getString("accountId"));
                 String currencyId = resultSet.getString("currencyId");
                 String type = resultSet.getString("type");
-                System.out.println("Account { accountId = "+ accountId+", name = "+name+", balance = "+balance+", lastUpdate = "+ lastUpdate +", transactionList = "+ transactionList+", currencyId = "+ currencyId + ", type = "+ type+" }; ");}
+                account = new Account(accountId,name,balance,lastUpdate,transactionList,currencyId,type);
+            }
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return null;
+        finally {
+            try {
+                if (resultSet != null){
+                    resultSet.close();
+                }
+                if (statement != null){
+                    statement.close();
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+               if (connection != null ){
+                   connection.close();
+               }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return account ;
     }
      public List<Transaction> getTransactionsForAccount(String id) {
-        getConnection();
+        Connection connection = null;
+        PreparedStatement statement = null ;
+        ResultSet resultSet = null;
         List<Transaction> transactions = new ArrayList<>();
         try {
             String sql = "SELECT * FROM transaction INNER JOIN account ON transaction.accountId = account.accountId WHERE transaction.accountId = ?";
-            PreparedStatement statement = connection.prepareStatement(sql);
+            connection = ConnectionDB.createConnection();
+            statement = connection.prepareStatement(sql);
             statement.setString(1,id);
-            ResultSet resultSet = statement.executeQuery();
+            resultSet = statement.executeQuery();
             while (resultSet.next()){
                 String transactionId = resultSet.getString("transactionId");
                 BigDecimal amount = resultSet.getBigDecimal("amount");
@@ -64,17 +88,41 @@ public class AccountCrudOperation implements CrudOperation<Account>{
     } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return transactions;
+        finally {
+            try {
+                if (resultSet != null){
+                    resultSet.close();
+                }
+                if (statement != null){
+                    statement.close();
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                if (connection != null ){
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+         return transactions;
     }
 
     @Override
     public List<Account> findAll() {
-        getConnection();
+        Connection connection = null;
+        PreparedStatement statement = null ;
+        ResultSet resultSet = null;
+        List<Account> listOfAccount = new ArrayList<>();
         try {
             String sql = "select * from account";
-            PreparedStatement statement = connection.prepareStatement(sql);
-            ResultSet resultSet = statement.executeQuery();
-            while(resultSet.next()){
+            connection = ConnectionDB.createConnection();
+            statement = connection.prepareStatement(sql);
+            resultSet = statement.executeQuery();
+            while(resultSet.next()) {
                 String accountId = resultSet.getString("accountId");
                 String name = resultSet.getString("name");
                 BigDecimal balance = resultSet.getBigDecimal("balance");
@@ -82,19 +130,42 @@ public class AccountCrudOperation implements CrudOperation<Account>{
                 List<Transaction> transactionList = getTransactionsForAccount(resultSet.getString("accountId"));
                 String currencyId = resultSet.getString("currencyId");
                 String type = resultSet.getString("type");
-                System.out.println("Account { accountId = "+ accountId+", name = "+name+", balance = "+balance+", lastUpdate = "+ lastUpdate +", transactionList = "+ transactionList+", currencyId = "+ currencyId + ", type = "+ type+" }; ");}
-           } catch (SQLException e) {
+                Account account = new Account(accountId,name,balance,lastUpdate,transactionList,currencyId,type);
+                listOfAccount.add(account);
+            }} catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return null;
+        finally {
+            try {
+                if (resultSet != null){
+                    resultSet.close();
+                }
+                if (statement != null){
+                    statement.close();
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                if (connection != null ){
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return listOfAccount;
     }
 
     @Override
     public Account save(Account toSave) {
-        getConnection();
+        Connection connection = null;
+        PreparedStatement statement = null ;
         try{
             String sql = "INSERT INTO account (accountId, name, balance, lastUpdate, currencyId, type) VALUES (?, ?, ?, ?, ?, ?) ON CONFLICT (accountId) DO UPDATE SET name = EXCLUDED.name, balance = EXCLUDED.balance, lastUpdate = EXCLUDED.lastUpdate, currencyId = EXCLUDED.currencyId, type = EXCLUDED.type";
-            PreparedStatement statement = connection.prepareStatement(sql);
+            connection = ConnectionDB.createConnection();
+            statement = connection.prepareStatement(sql);
             statement.setString(1,toSave.getAccountId());
             statement.setString(2,toSave.getName());
             statement.setBigDecimal(3,toSave.getBalance());
@@ -105,16 +176,35 @@ public class AccountCrudOperation implements CrudOperation<Account>{
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        finally {
+            try {
+                if (statement != null){
+                    statement.close();
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                if (connection != null ){
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
         return findById(toSave);
     }
 
     @Override
     public List<Account> saveAll(List<Account> tosave) {
-        getConnection();
+        Connection connection = null;
+        PreparedStatement statement = null ;
         try {
             for (Account account : tosave){
                 String sql = "INSERT INTO account (accountId, name, balance, lastUpdate, currencyId,type) VALUES ( ?, ?, ?, ?, ?, ?) ON CONFLICT (accountId) DO UPDATE SET name = EXCLUDED.name, balance = EXCLUDED.balance, lastUpdate = EXCLUDED.lastUpdate, currencyId = EXCLUDED.currencyId,type = EXCLUDED.type";
-                PreparedStatement statement = connection.prepareStatement(sql);
+                connection = ConnectionDB.createConnection();
+                statement = connection.prepareStatement(sql);
                 statement.setString(1,account.getAccountId());
                 statement.setString(2,account.getName());
                 statement.setBigDecimal(3,account.getBalance());
@@ -127,15 +217,33 @@ public class AccountCrudOperation implements CrudOperation<Account>{
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return null;
+        finally {
+            try {
+                if (statement != null){
+                    statement.close();
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                if (connection != null ){
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return tosave;
     }
 
     @Override
     public Account update(Account toUpdate) {
-            getConnection();
+        Connection connection = null;
+        PreparedStatement statement = null ;
             try {
                 String sql = "update account set name = ? , balance = ? , lastUpdate = ? ,currencyId = ? ,type = ?  where accountId = ?";
-                PreparedStatement statement = connection.prepareStatement(sql);
+                connection = ConnectionDB.createConnection();
+                statement = connection.prepareStatement(sql);
                 statement.setString(1,toUpdate.getName());
                 statement.setBigDecimal(2,toUpdate.getBalance());
                 statement.setObject(3,toUpdate.getLastUpdate());
@@ -152,18 +260,38 @@ public class AccountCrudOperation implements CrudOperation<Account>{
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
-            return findById(toUpdate); }
+            finally {
+                try {
+                    if (statement != null){
+                        statement.close();
+                    }
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+                try {
+                    if (connection != null ){
+                        connection.close();
+                    }
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return findById(toUpdate);
+    }
 
     public static void balanceAndDateOfAccount(Account account){
-        getConnection();
+        Connection connection = null;
+        PreparedStatement statement = null ;
+        ResultSet resultSet = null;
         try {
             String sql = "select transaction.date , history.balance from history \n" +
                     "inner join account ON history.accountId = account.accountId \n" +
                     "inner join transaction ON history.transactionId = transaction.transactionId \n" +
                     "where account.accountId = ? ";
-            PreparedStatement statement = connection.prepareStatement(sql);
+            connection = ConnectionDB.createConnection();
+            statement = connection.prepareStatement(sql);
             statement.setString(1, account.getAccountId());
-            ResultSet resultSet = statement.executeQuery();
+            resultSet = statement.executeQuery();
             while (resultSet.next()){
                 BigDecimal balance = resultSet.getBigDecimal("balance");
                 LocalDateTime date = resultSet.getTimestamp("date").toLocalDateTime();
@@ -172,6 +300,24 @@ public class AccountCrudOperation implements CrudOperation<Account>{
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
+        finally {
+            try {
+                if (resultSet != null){
+                    resultSet.close();
+                }
+                if (statement != null){
+                    statement.close();
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                if (connection != null ){
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
     }

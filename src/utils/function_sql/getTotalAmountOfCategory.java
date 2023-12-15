@@ -1,4 +1,4 @@
-package service.function_sql;
+package utils.function_sql;
 
 import configuration.ConnectionDB;
 
@@ -10,24 +10,22 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 public class getTotalAmountOfCategory {
-    private static Connection connection;
-    public static void getConnection() {
-        ConnectionDB Db = new ConnectionDB();
-        connection = Db.createConnection();
-    }
     public  static  void  TotalAmountOfCategoryAndName(String id , LocalDateTime startDate , LocalDateTime endDate) throws SQLException {
-        getConnection();
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
         try {
             String sql = "select  categories.name as category_name , sum(transaction.amount) as total_amount from transaction \n" +
                     "LEFT JOIN categories ON transaction.categoriesId = categories.categoriesId\n" +
                     "LEFT JOIN account ON transaction.accountId = account.accountId \n" +
                     "where transaction.accountId = ? AND transaction.date BETWEEN ? AND ?\n" +
                     "GROUP BY categories.name ";
-            PreparedStatement statement = connection.prepareStatement(sql);
+            connection = ConnectionDB.createConnection();
+            statement = connection.prepareStatement(sql);
             statement.setString(1,id);
             statement.setObject(2,startDate);
             statement.setObject(3,endDate);
-            ResultSet resultSet = statement.executeQuery();
+            resultSet = statement.executeQuery();
             while (resultSet.next()){
                 String category = resultSet.getString("category_name");
                 BigDecimal TotalAmount = resultSet.getBigDecimal("total_amount");
@@ -35,6 +33,25 @@ public class getTotalAmountOfCategory {
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+        finally {
+            try {
+                if (resultSet != null){
+                    resultSet.close();
+                }
+                if (statement != null){
+                    statement.close();
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                if (connection != null ){
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }

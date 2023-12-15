@@ -1,4 +1,4 @@
-import service.transaction.StatusOfTransaction;
+import utils.transaction.StatusOfTransaction;
 import test.TestOfAccount;
 import test.TestOfCurrency;
 import test.TestOfTransaction;
@@ -19,7 +19,6 @@ public class  Main {
 
         //Test of account :
         TestOfAccount.TestAccount();
-
 
 
         //Test of currency :

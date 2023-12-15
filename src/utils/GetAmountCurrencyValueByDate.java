@@ -1,4 +1,4 @@
-package service;
+package utils;
 
 import configuration.ConnectionDB;
 import java.math.BigDecimal;

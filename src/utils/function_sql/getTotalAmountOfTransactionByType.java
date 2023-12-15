@@ -1,9 +1,9 @@
-package service.function_sql;
+package utils.function_sql;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import static service.function_sql.getCountCredit.CountCredit;
-import static service.function_sql.getCountDebit.CountDebit;
+import static utils.function_sql.getCountCredit.CountCredit;
+import static utils.function_sql.getCountDebit.CountDebit;
 
 public class getTotalAmountOfTransactionByType {
     public static  void TotalAmountOfTransactionByType(String id , LocalDateTime startDate , LocalDateTime endDate){
