@@ -14,6 +14,7 @@ public class GetTotalAmountType {
     public static void getConnection() {
         ConnectionDB Db = new ConnectionDB();
         connection = Db.createConnection();
+
     }
     public static  void getTotalAmountType(String id , LocalDateTime startDate , LocalDateTime endDate){
         getConnection();
