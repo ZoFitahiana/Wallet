@@ -57,7 +57,8 @@ public class AccountCrudOperation implements CrudOperation<Account>{
                 String type = resultSet.getString("type");
                 LocalDateTime date = resultSet.getTimestamp("date").toLocalDateTime();
                 String accountId = resultSet.getString("accountId");
-                Transaction transaction = new Transaction(transactionId,amount,label,type,date,accountId);
+                String categoriesId = resultSet.getString("categoriesId");
+                Transaction transaction = new Transaction(transactionId,amount,label,type,date,accountId,categoriesId);
                 transactions.add(transaction);
             }
     } catch (SQLException e) {

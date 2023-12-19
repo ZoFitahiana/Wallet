@@ -9,16 +9,25 @@ CREATE TABLE IF NOT EXISTS account (
 
 -- Insert data into account table
 INSERT INTO account (accountId, name, balance, lastUpdate, currencyId, type)
-VALUES
-('ACC001', 'John Doe', 100.25, '2023-12-06 12:30:00', 'EUR', 'Bank')
-ON CONFLICT (accountId) DO NOTHING;
+SELECT 'ACC001', 'John Doe', 100.25, '2023-12-06 12:30:00', 'EUR', 'Bank'
+WHERE NOT EXISTS (
+    SELECT 1 FROM account
+    WHERE accountId = 'ACC001'
+)
+LIMIT 1;
 
 INSERT INTO account (accountId, name, balance, lastUpdate, currencyId, type)
-VALUES
-('ACC002', 'Jane Smith', 120.75, '2023-12-06 12:40:00', 'EUR', 'Cash')
-ON CONFLICT (accountId) DO NOTHING;
+SELECT 'ACC002', 'Jane Smith', 120.75, '2023-12-06 12:40:00', 'EUR', 'Cash'
+WHERE NOT EXISTS (
+    SELECT 1 FROM account
+    WHERE accountId = 'ACC002'
+)
+LIMIT 1;
 
 INSERT INTO account (accountId, name, balance, lastUpdate, currencyId, type)
-VALUES
-('ACC003', 'Alice Johnson', 500.00, '2023-12-06 13:30:00', 'AR', 'Mobile Money')
-ON CONFLICT (accountId) DO NOTHING;
+SELECT 'ACC003', 'Alice Johnson', 500.00, '2023-12-06 13:30:00', 'AR', 'Mobile Money'
+WHERE NOT EXISTS (
+    SELECT 1 FROM account
+    WHERE accountId = 'ACC003'
+)
+LIMIT 1;

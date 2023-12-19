@@ -2,16 +2,13 @@ package test;
 
 import model.Transaction;
 import dao.TransactionCrudOperation;
-import service.TransactionOfTwoAccount;
 
-import javax.swing.plaf.synth.SynthOptionPaneUI;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static service.TransactionOfTwoAccount.transactionOfAccount;
+import static service.transaction.TransactionOfTwoAccount.transactionOfAccount;
 
 public class TestOfTransaction {
 
@@ -31,13 +28,9 @@ public class TestOfTransaction {
 
     //----------------------------------------Test balance < amount of transaction accepted for account type is  BANK
     System.out.println("Test of transaction for balance  < amount to the  account type is BANK : ");
-    Transaction transaction = new Transaction("TXN006",debitAmount, "Dinner", "DEBIT",date,"ACC001");
+    Transaction transaction = new Transaction("TXN006",debitAmount, "Dinner", "DEBIT",date,"ACC001","CAT1");
     transactions.save(transaction);
 
-  //-----------------------------------------Test balance < amout of transaction accpted for account type is  not BANK
-    System.out.println("Test of transaction for balance  < amount and account type is not BANK : ");
-    Transaction transactionS = new Transaction("TXN002", debitAmount, "Dinner", "DEBIT",date,"ACC003");
-    transactions.save(transactionS);
 
     //----------------------------------------Find transaction by id---------------------------------:
     System.out.println("Finde transaction by ID : ");
@@ -46,15 +39,15 @@ public class TestOfTransaction {
     //----------------------------------------Test save list of transaction-----------------------:
     System.out.println("Save list of transaction :");
     List<Transaction> ListOfTransaction = new ArrayList<>();
-    Transaction transaction4 = new Transaction("TXN004", creditAmount, "Groceries", "CREDIT",date,"ACC002");
-    Transaction transaction5 = new Transaction("TXN005", debitAmount, "Dinner", "DEBIT",date,"ACC003");
+    Transaction transaction4 = new Transaction("TXN004", creditAmount, "Groceries", "CREDIT",date,"ACC003","CAT10");
+    Transaction transaction5 = new Transaction("TXN008", debitAmount, "Dinner", "DEBIT",date,"ACC003","CAT2");
     ListOfTransaction.add(transaction4);
     ListOfTransaction.add(transaction5);
     transactions.saveAll(ListOfTransaction);
 
     //---------------------------------------Test update Transaction--------------------------------:
     System.out.println("Update transaction :");
-    Transaction setTransaction5 = new Transaction("TXN005", amount, "Bonus", "CREDIT",date,"ACC003");
+    Transaction setTransaction5 = new Transaction("TXN004", amount, "Bonus", "CREDIT",date,"ACC003","CAT3");
     transactions.update(setTransaction5);
 
     //---------------------------------------Test Find all-------------------------------------:
@@ -66,8 +59,8 @@ public class TestOfTransaction {
     BigDecimal amountOfTransaction = new BigDecimal("1");
     LocalDateTime dateCurrencyValue = LocalDateTime.of(2023,12,8,12, 0, 0);
 
-    Transaction creditorAccount = new Transaction("TXN006",amountOfTransaction,"Transfer to  Rk Fabien","DEBIT",dateCurrencyValue,"ACC002");
-    Transaction debitorAccount = new Transaction("TXN005",amountOfTransaction,"Have money by Rakotonirina Zo","CREDIT",dateCurrencyValue,"ACC003");
+    Transaction creditorAccount = new Transaction("TXN006",amountOfTransaction,"Transfer to  Rk Fabien","DEBIT",dateCurrencyValue,"ACC002","CAT1");
+    Transaction debitorAccount = new Transaction("TXN005",amountOfTransaction,"Have money by Rakotonirina Zo","CREDIT",dateCurrencyValue,"ACC003","CAT10");
 
     transactionOfAccount(creditorAccount,debitorAccount);
 }

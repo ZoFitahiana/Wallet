@@ -8,10 +8,19 @@ CREATE TABLE IF NOT EXISTS CurrencyValue (
     date TIMESTAMP
 );
 
----insert into currency
-INSERT INTO CurrencyValue (currencyValueId, sourceDeviceId, deviceDestination, amount, date)
-VALUES
-    ('3', 'EUR', 'AR', 4500.00, '2023-12-08 12:00:00'),
-    ('4', 'AR', 'EUR', 500.00, '2023-12-08 13:00:00')
-ON CONFLICT (currencyValueId) DO NOTHING;
+--- Insert into CurrencyValue table
+ INSERT INTO CurrencyValue (currencyValueId, sourceDeviceId, deviceDestination, amount, date)
+ SELECT '1', 'EUR', 'AR', 4500.00, '2023-12-08 12:00:00'
+ WHERE NOT EXISTS (
+     SELECT 1 FROM CurrencyValue
+     WHERE currencyValueId = '1'
+ )
+ LIMIT 1;
 
+ INSERT INTO CurrencyValue (currencyValueId, sourceDeviceId, deviceDestination, amount, date)
+ SELECT '2', 'AR', 'EUR', 500.00, '2023-12-08 13:00:00'
+ WHERE NOT EXISTS (
+     SELECT 1 FROM CurrencyValue
+     WHERE currencyValueId = '2'
+ )
+ LIMIT 1;

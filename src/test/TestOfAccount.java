@@ -23,12 +23,12 @@ public class TestOfAccount {
         BigDecimal balance4 = new BigDecimal("400.456");
         LocalDateTime date = LocalDateTime.now();
         List<Transaction> ListOfTransaction = new ArrayList<>();
-        Transaction transaction1 = new Transaction("TXN004", amount, "Groceries", "CREDIT",date,"ACC001");
-        Transaction transaction2 = new Transaction("TXN003", amount, "Dinner", "DEBIT",date,"ACC001");
-        Transaction transaction3 = new Transaction("TXN003", amount, "Dinner", "CREDIT",date,"ACC002");
-        Transaction transaction4 = new Transaction("TXN003", amount, "Dinner", "DEBIT",date,"ACC002");
-        Transaction transaction5 = new Transaction("TXN003", amount, "Dinner", "CREDIT",date,"ACC003");
-        Transaction transaction6 = new Transaction("TXN003", amount, "Dinner", "DEBIT",date,"ACC003");
+        Transaction transaction1 = new Transaction("TXN004", amount, "Groceries", "CREDIT",date,"ACC001","CAT1");
+        Transaction transaction2 = new Transaction("TXN003", amount, "Dinner", "DEBIT",date,"ACC001","CAT2");
+        Transaction transaction3 = new Transaction("TXN003", amount, "Dinner", "CREDIT",date,"ACC002","CAT3");
+        Transaction transaction4 = new Transaction("TXN003", amount, "Dinner", "DEBIT",date,"ACC002","CAT1");
+        Transaction transaction5 = new Transaction("TXN003", amount, "Dinner", "CREDIT",date,"ACC003","CAT2");
+        Transaction transaction6 = new Transaction("TXN003", amount, "Dinner", "DEBIT",date,"ACC003","CAT3");
         ListOfTransaction.add(transaction1);
         ListOfTransaction.add(transaction2);
         ListOfTransaction.add(transaction3);

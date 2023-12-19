@@ -5,12 +5,20 @@ CREATE TABLE IF NOT EXISTS currency (
     code VARCHAR(10)
 );
 
--- insert for currency
+-- Insert into table currency
+INSERT INTO currency (currencyId, name, code)
+SELECT 'EUR', 'Euro', 'EUR'
+WHERE NOT EXISTS (
+    SELECT 1 FROM currency
+    WHERE currencyId = 'EUR'
+)
+LIMIT 1;
 
 INSERT INTO currency (currencyId, name, code)
-VALUES ('EUR', 'Euro', 'EUR')
-ON CONFLICT (currencyId) DO NOTHING;
+SELECT 'AR', 'ariary', 'MGA'
+WHERE NOT EXISTS (
+    SELECT 1 FROM currency
+    WHERE currencyId = 'AR'
+)
+LIMIT 1;
 
-INSERT INTO currency (currencyId, name, code)
-VALUES ('AR', 'ariary', 'MGA')
-ON CONFLICT (currencyId) DO NOTHING;
