@@ -16,7 +16,7 @@ import utils.GetAccountOfData;
 public class AccountTest implements TestOperation{
     AccountCrudOperation accounts = new AccountCrudOperation();
     GetAccountOfData data = new GetAccountOfData();
-    BigDecimal balance = new BigDecimal("86.75");
+    BigDecimal balance = new BigDecimal("35.50");
     BigDecimal amount = new BigDecimal("50.25");
     BigDecimal amount2 = new BigDecimal("1");
     LocalDateTime date = LocalDateTime.of(2023,12,6,18,45,0);
