@@ -1,32 +1,28 @@
 package dao.generic;
 
 import model.Account;
-import model.Transaction;
 
 import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.util.List;
 
-public class GenericDaoAccount extends GenericCrudService<Account>{
+public class GenericDaoAccount extends GenericCrudOperation<Account> {
     @Override
     String getTableName() {
         return "account";
     }
 
     @Override
-    Account getResultset(Account entity) {
-        String accountId = entity.getAccountId();
-        String name = entity.getName();
-        BigDecimal balance = entity.getBalance();
-        LocalDateTime lastUpdate = entity.getLastUpdate();
-        List<Transaction> transactionList = entity.getTransactionList();
-        String currencyId = entity.getCurrencyId();
-        String type = entity.getType();
-        return new Account(accountId,name,balance,lastUpdate,transactionList,currencyId,type);
+    Account getObjectFromResultSet(ResultSet resultSet) throws SQLException {
+        String accountId = resultSet.getString("accountId");
+        String name = resultSet.getString("name");
+        BigDecimal balance = resultSet.getBigDecimal("balance");
+        LocalDateTime lastUpdate = resultSet.getTimestamp("lastUpdate").toLocalDateTime();
+        String currencyId = resultSet.getString("currencyId");
+        String type = resultSet.getString("type");
+        return new Account(accountId, name, balance, lastUpdate,null, currencyId, type);
+
     }
 
-    @Override
-    Account setObject(Account entity) {
-        return null;
-    }
 }
