@@ -1,24 +1,13 @@
-import utils.transaction.StatusOfTransaction;
-import test.TestOfAccount;
-import test.TestOfCurrency;
-import test.TestOfTransaction;
+import dao.generic.GenericDaoAccount;
 
 import java.sql.SQLException;
-import java.time.LocalDateTime;
-
-import static test.test_function_sql.TestOfTotalAmountTransactionUseFunction.testOfTotalAmountTransactionByTypeNotUseFunction;
-import static test.test_function_sql.TestOfTotalAmountsCategoryAndName.testCategoryNameAndAmountsFunction;
-import static test.test_function_sql.testTotalAmountOfCategoryNotUseFunctionSQL.TestTotalAmountOfCategoryNotUseFunction;
-import static test.test_function_sql.testTotalAmountTransactionByTypeNotUseFunctionSQL.TotalAmountTransactionByTypeNotUseFunctionSQL;
 
 public class  Main {
     public static void main(String[] args) throws SQLException {
-
+/*
        //Test of transaction :
         TestOfTransaction.TestTransaction();
 
-        //Test of account :
-        TestOfAccount.TestAccount();
 
 
         //Test of currency :
@@ -44,6 +33,9 @@ public class  Main {
         TestTotalAmountOfCategoryNotUseFunction();
 
 
+*/
+        GenericDaoAccount accounts = new GenericDaoAccount();
+        accounts.findAll();
 
-}
+    }
 }
