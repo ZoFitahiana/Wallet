@@ -26,9 +26,7 @@ public class AccountTest implements TestOperation{
     public void TestFindById() {
         List<Transaction> ListOfTransaction = new ArrayList<>();
         Transaction transaction = new Transaction("TXN002",amount,"Dinner","DEBIT",date,"ACC002","CAT2");
-        Transaction transaction2 = new Transaction("TXN006",amount2,"Transfer to  Rk Fabien","DEBIT",dateToo,"ACC002","CAT1");
         ListOfTransaction.add(transaction);
-        ListOfTransaction.add(transaction2);
         Account account = new Account("ACC002","Jane Smith" ,balance,LastDateUpdate,ListOfTransaction, "EUR", "Cash");
         Account result = accounts.findById(account);
         assertEquals(result,account,"Should return ACC002");
@@ -41,7 +39,6 @@ public class AccountTest implements TestOperation{
         Transaction transaction2 = new Transaction("TXN006",amount2,"Transfer to  Rk Fabien","DEBIT",dateToo,"ACC002","CAT1");
         ListOfTransaction.add(transaction);
         ListOfTransaction.add(transaction2);
-
         Account account = new Account("ACC010","Tsarist Rk" ,balance,LastDateUpdate,ListOfTransaction, "AR", "Cash");
         Account result = accounts.save(account);
         assertNotNull(result);
